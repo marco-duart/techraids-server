@@ -1,0 +1,2 @@
+class HonoraryTitle < ApplicationRecord
+end
