@@ -25,7 +25,7 @@ gem "thruster", require: false
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 gem "activestorage"
-# gem "image_processing", "~> 1.2"
+gem "image_processing", "~> 1.2"
 
 gem "enumerize"
 
@@ -39,4 +39,6 @@ group :development, :test do
   gem "brakeman", require: false
 
   gem "rubocop-rails-omakase", require: false
+
+  gem "faker"
 end
