@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   include DeviseTokenAuth::Concerns::User
+  enum :role, { character: 0, narrator: 1 }
 
   belongs_to :village, optional: true
   belongs_to :guild, optional: true
