@@ -1,4 +1,22 @@
 class GuildPolicy < ApplicationPolicy
+  class Scope < Scope
+    def resolve
+      if user.narrator?
+        scope.all
+      else
+        scope.where(id: user.guild_id)
+      end
+    end
+  end
+
+  def index?
+    true
+  end
+
+  def show?
+    user.narrator? || record.id == user.guild_id
+  end
+
   def create?
     user.narrator?
   end
