@@ -27,10 +27,10 @@ class DeviseTokenAuthCreateUsers < ActiveRecord::Migration[8.0]
       # t.string   :unlock_token # Only if unlock strategy is :email or :both
       # t.datetime :locked_at
 
+      ## Campos personalizados
       t.string :name
       t.string :nickname
       t.string :email
-
       t.integer :role, default: 0
 
       ## Tokens
