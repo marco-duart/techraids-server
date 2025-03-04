@@ -67,6 +67,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_28_184900) do
     t.string "name"
     t.string "slogan"
     t.integer "required_experience"
+    t.float "entry_fee"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "specialization_id"
@@ -174,6 +175,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_28_184900) do
     t.string "nickname"
     t.string "email"
     t.integer "role", default: 0
+    t.integer "experience", default: 0
+    t.float "gold", default: 0.0
     t.json "tokens"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
