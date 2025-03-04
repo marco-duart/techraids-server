@@ -9,4 +9,11 @@ Rails.application.routes.draw do
   resources :quests, only: [ :index, :show, :create, :update, :destroy ]
   resources :characters, only: [ :index, :show, :update ]
   resources :treasure_chests, only: [ :index, :show ]
+  resources :specializations, only: [ :index, :show, :create, :update, :destroy ]
+  resources :character_classes, only: [ :index, :show, :create, :update, :destroy ]
+
+  namespace :characters do
+    post "select_specialization", to: "progressions#select_specialization"
+    post "switch_character_class", to: "progressions#switch_character_class"
+  end
 end

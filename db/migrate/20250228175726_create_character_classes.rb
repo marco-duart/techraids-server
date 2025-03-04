@@ -4,6 +4,7 @@ class CreateCharacterClasses < ActiveRecord::Migration[8.0]
       t.string :name
       t.string :slogan
       t.integer :required_experience
+      t.float :entry_fee
 
       t.timestamps
     end
