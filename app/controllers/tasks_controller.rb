@@ -13,10 +13,10 @@ class TasksController < ApplicationController
   end
 
   def create
-    @task = Task.new(task_params)
+    @task = Task.new(create_task_params)
     @task.character = current_user
     @task.narrator = current_user.guild.narrator if current_user.guild
-    @task.chapter = current_user.chapter
+    @task.chapter = current_user.current_chapter
     authorize @task
 
     if @task.save
@@ -28,7 +28,7 @@ class TasksController < ApplicationController
 
   def update
     authorize @task
-    if @task.update(task_params)
+    if @task.update(update_task_params)
       render json: @task
     else
       render json: @task.errors, status: :unprocessable_entity
@@ -47,7 +47,11 @@ class TasksController < ApplicationController
     @task = Task.find(params[:id])
   end
 
-  def task_params
-    params.require(:task).permit(:title, :description, :status, :experience_reward, :chapter_id)
+  def create_task_params
+    params.require(:task).permit(:title, :description, :chapter_id)
+  end
+
+  def update_task_params
+    params.require(:task).permit(:status, :experience_reward)
   end
 end
