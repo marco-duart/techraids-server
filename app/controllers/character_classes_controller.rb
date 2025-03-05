@@ -45,7 +45,7 @@ class CharacterClassesController < ApplicationController
   end
 
   def character_class_params
-    params.require(:character_class).permit(:name, :slogan, :required_experience, :entry_fee, :image)
+    params.require(:character_class).permit(:name, :slogan, :required_experience, :entry_fee, :specialization_id, :image)
   end
 
   def authorize_narrator
