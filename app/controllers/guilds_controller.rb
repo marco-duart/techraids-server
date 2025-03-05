@@ -47,6 +47,6 @@ class GuildsController < ApplicationController
   end
 
   def guild_params
-    params.require(:guild).permit(:name, :description, :village_id)
+    params.require(:guild).permit(:name, :description, :village_id, :narrator_id)
   end
 end
