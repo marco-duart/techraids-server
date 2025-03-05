@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   resources :missions, only: [ :index, :show, :create, :update, :destroy ]
   resources :guilds, only: [ :index, :show, :create, :update, :destroy ]
   resources :quests, only: [ :index, :show, :create, :update, :destroy ]
+  resources :chapters, only: [ :index, :show, :create, :update, :destroy ]
+  resources :villages, only: [ :index, :show, :create, :update, :destroy ]
   resources :characters, only: [ :index, :show, :update ]
   resources :treasure_chests, only: [ :index, :show ]
   resources :specializations, only: [ :index, :show, :create, :update, :destroy ]
