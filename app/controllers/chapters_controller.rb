@@ -45,6 +45,6 @@ class ChaptersController < ApplicationController
   end
 
   def chapter_params
-    params.require(:chapter).permit(:title, :description, :quest_id)
+    params.require(:chapter).permit(:title, :description, :required_experience, :quest_id)
   end
 end
