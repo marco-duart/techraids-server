@@ -4,7 +4,7 @@ class QuestPolicy < ApplicationPolicy
       if user.narrator?
         scope.all
       else
-        scope.joins(:chapters).where(chapters: { id: user.chapter_id }).distinct
+        scope.joins(:chapters).where(chapters: { id: user.current_chapter_id }).distinct
       end
     end
   end
@@ -14,7 +14,7 @@ class QuestPolicy < ApplicationPolicy
   end
 
   def show?
-    user.narrator? || record.chapters.exists?(id: user.chapter_id)
+    user.narrator? || record.chapters.exists?(id: user.current_chapter_id)
   end
 
   def create?
