@@ -1,6 +1,12 @@
 require 'faker'
 Faker::Config.default_locale = :pt
 
+# Imagens
+USER_IMAGES_DIR = Rails.root.join('db', 'seeds', 'images', 'character')
+CHARACTER_CLASS_IMAGES_DIR = Rails.root.join('db', 'seeds', 'images', 'character_class')
+user_image_files = Dir.children(USER_IMAGES_DIR)
+character_class_image_files = Dir.children(CHARACTER_CLASS_IMAGES_DIR)
+
 # User.destroy_all
 # Village.destroy_all
 # Guild.destroy_all
@@ -27,6 +33,10 @@ narrator = User.create!(
   village: village,
   confirmed_at: Time.now
 )
+if user_image_files.any?
+  image_path = USER_IMAGES_DIR.join(user_image_files.sample)
+  character.photo.attach(io: File.open(image_path), filename: File.basename(image_path))
+end
 
 # Guilds
 guild_dev = Guild.create!(name: 'Dev', description: 'Equipe de Desenvolvimento', village: village, narrator: narrator)
@@ -43,20 +53,25 @@ end
 # CharacterClasses
 specializations.each do |spec|
   3.times do
-    CharacterClass.create!(
+    character_class = CharacterClass.create!(
       name: Faker::Job.title,
       slogan: Faker::Lorem.sentence,
       required_experience: rand(100..1000),
       entry_fee: rand(10..50),
       specialization: spec
     )
+
+    if character_class_image_files.any?
+      image_path = CHARACTER_CLASS_IMAGES_DIR.join(character_class_image_files.sample)
+      character_class.image.attach(io: File.open(image_path), filename: File.basename(image_path))
+    end
   end
 end
 
 # Characters
 10.times do |i|
   spec = specializations.sample
-  User.create!(
+  character = User.create!(
     name: Faker::Name.name,
     nickname: Faker::Internet.username,
     email: Faker::Internet.email,
@@ -70,6 +85,11 @@ end
     gold: rand(0.0..500.0),
     confirmed_at: Time.now
   )
+
+  if user_image_files.any?
+    image_path = USER_IMAGES_DIR.join(user_image_files.sample)
+    character.photo.attach(io: File.open(image_path), filename: File.basename(image_path))
+  end
 end
 
 # Quests
