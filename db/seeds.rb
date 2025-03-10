@@ -35,7 +35,7 @@ narrator = User.create!(
 )
 if user_image_files.any?
   image_path = USER_IMAGES_DIR.join(user_image_files.sample)
-  character.photo.attach(io: File.open(image_path), filename: File.basename(image_path))
+  narrator.photo.attach(io: File.open(image_path), filename: File.basename(image_path))
 end
 
 # Guilds
