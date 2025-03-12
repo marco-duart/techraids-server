@@ -17,7 +17,8 @@ Rails.application.routes.draw do
   resources :character_classes, only: [ :index, :show, :create, :update, :destroy ]
 
   namespace :characters do
-    post "select_specialization", to: "progressions#select_specialization"
-    post "switch_character_class", to: "progressions#switch_character_class"
+    post "select_specialization", to: "characters#select_specialization"
+    post "switch_character_class", to: "characters#switch_character_class"
+    get "character_quest", to: "characters#character_quest"
   end
 end

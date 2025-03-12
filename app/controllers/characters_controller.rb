@@ -1,26 +1,34 @@
-class Characters::ProgressionsController < ApplicationController
+class CharactersController < ApplicationController
   before_action :authenticate_user!
   before_action :authorize_character
 
   def select_specialization
-    authorize current_user, :select?, policy_class: SpecializationPolicy
+    result = CharacterProgressionService.new(current_user).select_specialization(params[:specialization_id])
 
-    if current_user.update(specialization_id: params[:specialization_id])
-      render json: current_user, status: :ok
+    if result[:success]
+      render json: result[:user], status: :ok
     else
-      render json: current_user.errors, status: :unprocessable_entity
+      render json: { errors: result[:errors] }, status: :unprocessable_entity
     end
   end
 
   def switch_character_class
-    character_class = CharacterClass.find(params[:character_class_id])
-    authorize character_class, :switch?
+    result = CharacterProgressionService.new(current_user).switch_character_class(params[:character_class_id])
 
-    if current_user.gold >= character_class.entry_fee && current_user.experience >= character_class.required_experience
-      current_user.update(character_class_id: character_class.id, gold: current_user.gold - character_class.entry_fee)
-      render json: current_user, status: :ok
+    if result[:success]
+      render json: result[:user], status: :ok
     else
-      render json: { error: "Você não tem recursos suficientes para trocar de classe." }, status: :unprocessable_entity
+      render json: { error: result[:error] }, status: :unprocessable_entity
+    end
+  end
+
+  def character_quest
+    result = CharacterQuestService.new(current_user).fetch_quest_and_companions
+
+    if result[:success]
+      render json: result[:data], status: :ok
+    else
+      render json: { error: result[:error] }, status: :not_found
     end
   end
 

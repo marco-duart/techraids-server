@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
@@ -11,6 +9,7 @@ class User < ActiveRecord::Base
   belongs_to :character_class, optional: true
   belongs_to :specialization, optional: true
   belongs_to :current_chapter, class_name: "Chapter", optional: true
+  belongs_to :active_title, class_name: "HonoraryTitle", optional: true
 
   has_many :tasks
   has_many :missions
@@ -19,4 +18,18 @@ class User < ActiveRecord::Base
   has_many :honorary_titles
 
   has_one_attached :photo
+
+  def current_level
+    return 1 if experience.to_i <= 0
+
+    chapters = Chapter.order(:required_experience)
+
+    return 1 if chapters.empty? || experience < chapters.first.required_experience
+
+    chapters.reverse_each do |chapter|
+      return chapter.id if experience >= chapter.required_experience
+    end
+
+    1
+  end
 end
