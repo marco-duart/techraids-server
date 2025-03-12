@@ -103,7 +103,7 @@ quests.each do |quest|
     Chapter.create!(
       title: "Capítulo #{i + 1}",
       description: Faker::Lorem.paragraph,
-      required_experience: (i + 1) * 100,
+      required_experience: (i == 0 ? 0 : (i + 1) * 100),
       quest: quest
     )
   end
