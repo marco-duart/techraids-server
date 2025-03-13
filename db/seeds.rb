@@ -68,30 +68,6 @@ specializations.each do |spec|
   end
 end
 
-# Characters
-10.times do |i|
-  spec = specializations.sample
-  character = User.create!(
-    name: Faker::Name.name,
-    nickname: Faker::Internet.username,
-    email: Faker::Internet.email,
-    password: 'password',
-    role: :character,
-    village: village,
-    guild: i.even? ? guild_dev : guild_infra,
-    character_class: spec.character_classes.sample,
-    specialization: spec,
-    experience: rand(0..1000),
-    gold: rand(0.0..500.0),
-    confirmed_at: Time.now
-  )
-
-  if user_image_files.any?
-    image_path = USER_IMAGES_DIR.join(user_image_files.sample)
-    character.photo.attach(io: File.open(image_path), filename: File.basename(image_path))
-  end
-end
-
 # Quests
 quest_dev = Quest.create!(title: 'Jornada do Desenvolvedor', description: 'Domine o desenvolvimento.', guild: guild_dev)
 quest_infra = Quest.create!(title: 'Jornada do Infra', description: 'Domine a infraestrutura.', guild: guild_infra)
@@ -119,6 +95,31 @@ Chapter.all.each_slice(rand(5..10)) do |chapter_group|
     required_experience: last_chapter.required_experience + rand(10..50),
     chapter: last_chapter
   )
+end
+
+# Characters
+10.times do |i|
+  spec = specializations.sample
+  character = User.create!(
+    name: Faker::Name.name,
+    nickname: Faker::Internet.username,
+    email: Faker::Internet.email,
+    password: 'password',
+    role: :character,
+    village: village,
+    guild: i.even? ? guild_dev : guild_infra,
+    current_chapter: i.even? ? quest_dev.chapters.first : quest_infra.chapters.first,
+    character_class: spec.character_classes.sample,
+    specialization: spec,
+    experience: rand(0..1000),
+    gold: rand(0.0..500.0),
+    confirmed_at: Time.now
+  )
+
+  if user_image_files.any?
+    image_path = USER_IMAGES_DIR.join(user_image_files.sample)
+    character.photo.attach(io: File.open(image_path), filename: File.basename(image_path))
+  end
 end
 
 # HonoraryTitles
