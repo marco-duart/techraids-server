@@ -185,6 +185,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_28_184900) do
     t.bigint "character_class_id"
     t.bigint "specialization_id"
     t.bigint "current_chapter_id"
+    t.bigint "active_title_id"
+    t.index ["active_title_id"], name: "index_users_on_active_title_id"
     t.index ["character_class_id"], name: "index_users_on_character_class_id"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["current_chapter_id"], name: "index_users_on_current_chapter_id"
@@ -224,6 +226,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_28_184900) do
   add_foreign_key "users", "chapters", column: "current_chapter_id"
   add_foreign_key "users", "character_classes"
   add_foreign_key "users", "guilds"
+  add_foreign_key "users", "honorary_titles", column: "active_title_id"
   add_foreign_key "users", "specializations"
   add_foreign_key "users", "villages"
 end
