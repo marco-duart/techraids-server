@@ -11,8 +11,10 @@ class User < ActiveRecord::Base
   belongs_to :current_chapter, class_name: "Chapter", optional: true
   belongs_to :active_title, class_name: "HonoraryTitle", optional: true
 
-  has_many :tasks
-  has_many :missions
+  has_many :character_tasks, class_name: "Task", foreign_key: "character_id"
+  has_many :tasks, class_name: "Task", foreign_key: "narrator_id"
+  has_many :character_missions, class_name: "Mission", foreign_key: "character_id"
+  has_many :missions, class_name: "Mission", foreign_key: "narrator_id"
   has_many :character_treasure_chests
   has_many :treasure_chests, through: :character_treasure_chests
   has_many :honorary_titles
