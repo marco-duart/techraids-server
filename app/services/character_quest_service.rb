@@ -1,21 +1,21 @@
 class CharacterQuestService
   include Rails.application.routes.url_helpers
 
-  def initialize(user)
-    @user = user
+  def initialize(character)
+    @character = character
   end
 
   def fetch_quest_and_companions
-    guild = @user.guild
+    guild = @character.guild
 
     if guild.nil?
       return { success: false, error: "Personagem não pertence a nenhuma guild!" }
     end
 
     quest = guild.quest
-    current_chapter = @user.current_chapter
+    current_chapter = @character.current_chapter
 
-    guild_members = guild.characters.where.not(id: @user.id).select(:nickname, :experience, :character_class_id, :current_chapter_id, :active_title_id)
+    guild_members = guild.characters.where.not(id: @character.id).select(:nickname, :experience, :character_class_id, :current_chapter_id, :active_title_id)
 
     guild_members_with_details = guild_members.map do |member|
       image_url = member.character_class.image.attached? ? rails_blob_url(member.character_class.image) : nil
