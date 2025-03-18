@@ -60,6 +60,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_28_184900) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "quest_id"
+    t.integer "position_x"
+    t.integer "position_y"
     t.index ["quest_id"], name: "index_chapters_on_quest_id"
   end
 
