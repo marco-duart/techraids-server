@@ -10,6 +10,7 @@ class CharacterQuestService
 
     guild = @character.guild
     quest = guild.quest
+    chapters = quest.chapters
     current_chapter = @character.current_chapter
     guild_members = fetch_guild_members(guild)
 
@@ -17,6 +18,7 @@ class CharacterQuestService
       success: true,
       data: {
         quest: quest,
+        chapters: chapters,
         current_chapter: current_chapter,
         guild_members: guild_members,
         last_task: fetch_last_task,
