@@ -5,7 +5,8 @@ class CustomSessionsController < DeviseTokenAuth::SessionsController
     user_json = @resource.as_json(include: [
       :village,
       :guild,
-      :specialization
+      :specialization,
+      :active_title
     ]).merge(
       photo_url: @resource.photo.attached? ? rails_blob_url(@resource.photo) : nil,
       current_level: @resource.current_level

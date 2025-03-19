@@ -17,7 +17,9 @@ class User < ActiveRecord::Base
   has_many :missions, class_name: "Mission", foreign_key: "narrator_id"
   has_many :character_treasure_chests
   has_many :treasure_chests, through: :character_treasure_chests
-  has_many :honorary_titles
+
+  has_many :honorary_titles, class_name: "HonoraryTitle", foreign_key: "narrator_id"
+  has_many :acquired_titles, class_name: "HonoraryTitle", foreign_key: "character_id"
 
   has_one_attached :photo
 
