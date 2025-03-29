@@ -1,25 +1,15 @@
 require 'faker'
 Faker::Config.default_locale = :pt
 
+# Pontos do Mapa
+points_file = Rails.root.join('db', 'seeds', 'json', 'points.json')
+points = JSON.parse(File.read(points_file))
+
 # Imagens
 USER_IMAGES_DIR = Rails.root.join('db', 'seeds', 'images', 'character')
 CHARACTER_CLASS_IMAGES_DIR = Rails.root.join('db', 'seeds', 'images', 'character_class')
 user_image_files = Dir.children(USER_IMAGES_DIR)
 character_class_image_files = Dir.children(CHARACTER_CLASS_IMAGES_DIR)
-
-# User.destroy_all
-# Village.destroy_all
-# Guild.destroy_all
-# Specialization.destroy_all
-# CharacterClass.destroy_all
-# Task.destroy_all
-# Mission.destroy_all
-# TreasureChest.destroy_all
-# HonoraryTitle.destroy_all
-# Quest.destroy_all
-# Chapter.destroy_all
-# Boss.destroy_all
-# CharacterTreasureChest.destroy_all
 
 # Village
 village = Village.create!(name: 'TI', description: 'Departamento de Tecnologia da Informação')
@@ -72,34 +62,48 @@ end
 quest_dev = Quest.create!(title: 'Jornada do Desenvolvedor', description: 'Domine o desenvolvimento.', guild: guild_dev)
 quest_infra = Quest.create!(title: 'Jornada do Infra', description: 'Domine a infraestrutura.', guild: guild_infra)
 
-# Chapters
+# Chapters e Bosses
 quests = [ quest_dev, quest_infra ]
+boss_chapter_indices = [ 6, 15, 21, 28, 36, 43, 48, 52, 53, 56, 64, 74, 78, 79 ]
+
 quests.each do |quest|
-  10.times do |i|
-    Chapter.create!(
+  points.each_with_index do |point, i|
+    base_experience = (i + 1) * 150
+    is_boss_chapter = boss_chapter_indices.include?(i + 1)
+
+    chapter = Chapter.create!(
       title: "Capítulo #{i + 1}",
       description: Faker::Lorem.paragraph,
-      required_experience: (i == 0 ? 0 : (i + 1) * 100),
-      quest: quest
+      required_experience: is_boss_chapter ? base_experience + 200 : base_experience,
+      quest: quest,
+      position_x: point["x"],
+      position_y: point["y"]
     )
+
+    # Boss
+    if is_boss_chapter
+      Boss.create!(
+        name: Faker::Games::ElderScrolls.creature,
+        slogan: Faker::Quotes::Shakespeare.hamlet_quote,
+        description: "Um chefe no capítulo #{chapter.title}",
+        required_experience: chapter.required_experience + rand(50..100),
+        chapter: chapter
+      )
+    end
   end
 end
 
-# Boss
-Chapter.all.each_slice(rand(5..10)) do |chapter_group|
-  last_chapter = chapter_group.last
-  Boss.create!(
-    name: Faker::Games::ElderScrolls.creature,
-    slogan: Faker::Quotes::Shakespeare.hamlet_quote,
-    description: "Um chefe no capítulo #{last_chapter.title}",
-    required_experience: last_chapter.required_experience + rand(10..50),
-    chapter: last_chapter
-  )
-end
-
 # Characters
-10.times do |i|
+40.times do |i|
   spec = specializations.sample
+  experience = rand(0..10000)
+  guild = i.even? ? guild_dev : guild_infra
+  quest = guild == guild_dev ? quest_dev : quest_infra
+
+  chapter_index = [ (experience / 150).to_i - 1, 0 ].max
+  chapter_index = [ chapter_index, quest.chapters.count - 1 ].min
+  current_chapter = quest.chapters.offset(chapter_index).first || quest.chapters.first
+
   character = User.create!(
     name: Faker::Name.name,
     nickname: Faker::Internet.username,
@@ -107,11 +111,11 @@ end
     password: 'password',
     role: :character,
     village: village,
-    guild: i.even? ? guild_dev : guild_infra,
-    current_chapter: i.even? ? quest_dev.chapters.first : quest_infra.chapters.first,
+    guild: guild,
+    current_chapter: current_chapter,
     character_class: spec.character_classes.sample,
     specialization: spec,
-    experience: rand(0..1000),
+    experience: experience,
     gold: rand(0.0..500.0),
     confirmed_at: Time.now
   )
@@ -145,13 +149,12 @@ User.where(role: :character).each do |character|
   CharacterTreasureChest.create!(
     character: character,
     treasure_chest: TreasureChest.all.sample,
-    amount: rand(1..5)
   )
 end
 
 # Missions e Tasks
 User.where(role: :character).each do |character|
-  3.times do
+  5.times do
     mission = Mission.create!(
       title: Faker::Lorem.sentence,
       description: Faker::Lorem.paragraph,

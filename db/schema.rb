@@ -43,10 +43,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_28_184900) do
   end
 
   create_table "bosses", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.string "slogan"
     t.text "description"
-    t.integer "required_experience"
+    t.integer "required_experience", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "chapter_id"
@@ -54,22 +54,22 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_28_184900) do
   end
 
   create_table "chapters", force: :cascade do |t|
-    t.string "title"
+    t.string "title", null: false
     t.text "description"
-    t.integer "required_experience"
+    t.integer "required_experience", null: false
+    t.integer "position_x"
+    t.integer "position_y"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "quest_id"
-    t.integer "position_x"
-    t.integer "position_y"
     t.index ["quest_id"], name: "index_chapters_on_quest_id"
   end
 
   create_table "character_classes", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.string "slogan"
-    t.integer "required_experience"
-    t.float "entry_fee"
+    t.integer "required_experience", default: 0
+    t.float "entry_fee", default: 0.0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "specialization_id"
@@ -77,7 +77,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_28_184900) do
   end
 
   create_table "character_treasure_chests", force: :cascade do |t|
-    t.integer "amount"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "character_id"
@@ -87,7 +86,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_28_184900) do
   end
 
   create_table "guilds", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -98,7 +97,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_28_184900) do
   end
 
   create_table "honorary_titles", force: :cascade do |t|
-    t.string "title"
+    t.string "title", null: false
     t.string "slogan"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -111,7 +110,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_28_184900) do
   create_table "missions", force: :cascade do |t|
     t.string "title"
     t.text "description"
-    t.integer "status"
+    t.integer "status", default: 0
     t.float "gold_reward"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -124,7 +123,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_28_184900) do
   end
 
   create_table "quests", force: :cascade do |t|
-    t.string "title"
+    t.string "title", null: false
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -133,7 +132,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_28_184900) do
   end
 
   create_table "specializations", force: :cascade do |t|
-    t.string "title"
+    t.string "title", null: false
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -142,7 +141,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_28_184900) do
   create_table "tasks", force: :cascade do |t|
     t.string "title"
     t.text "description"
-    t.integer "status"
+    t.integer "status", default: 0
     t.integer "experience_reward"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -155,8 +154,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_28_184900) do
   end
 
   create_table "treasure_chests", force: :cascade do |t|
-    t.string "title"
-    t.float "value"
+    t.string "title", null: false
+    t.float "value", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -201,7 +200,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_28_184900) do
   end
 
   create_table "villages", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
