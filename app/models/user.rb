@@ -24,16 +24,6 @@ class User < ActiveRecord::Base
   has_one_attached :photo
 
   def current_level
-    return 1 if experience.to_i <= 0
-
-    chapters = Chapter.order(:required_experience)
-
-    return 1 if chapters.empty? || experience < chapters.first.required_experience
-
-    chapters.reverse_each do |chapter|
-      return chapter.id if experience >= chapter.required_experience
-    end
-
-    1
+    (experience / 25).floor + 1
   end
 end
