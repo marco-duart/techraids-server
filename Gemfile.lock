@@ -324,6 +324,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  actioncable
   activestorage
   bootsnap
   brakeman
