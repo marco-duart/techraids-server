@@ -23,6 +23,8 @@ class User < ActiveRecord::Base
 
   has_one_attached :photo
 
+  validates :nickname, uniqueness: true
+
   def current_level
     (experience / 25).floor + 1
   end

@@ -1,23 +1,27 @@
 class SpecializationPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
-      scope.all
+      if user.narrator?
+        scope.where(guild: user.guild)
+      else
+        scope.where(guild: user.guild)
+      end
     end
   end
 
   def create?
-    user.narrator?
+    user.narrator? && record.guild == user.guild
   end
 
   def update?
-    user.narrator?
+    user.narrator? && record.guild == user.guild
   end
 
   def destroy?
-    user.narrator?
+    user.narrator? && record.guild == user.guild
   end
 
   def select?
-    user.character? && user.specialization.nil?
+    user.character? && user.specialization.nil? && record.guild == user.guild
   end
 end
