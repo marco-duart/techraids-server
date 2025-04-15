@@ -136,6 +136,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_28_184900) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "guild_id"
+    t.index ["guild_id"], name: "index_specializations_on_guild_id"
   end
 
   create_table "tasks", force: :cascade do |t|
@@ -177,7 +179,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_28_184900) do
     t.string "email"
     t.integer "role", default: 0
     t.integer "experience", default: 0
-    t.float "gold", default: 0.0
+    t.integer "gold", default: 0
     t.json "tokens"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -221,6 +223,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_28_184900) do
   add_foreign_key "missions", "users", column: "character_id"
   add_foreign_key "missions", "users", column: "narrator_id"
   add_foreign_key "quests", "guilds"
+  add_foreign_key "specializations", "guilds"
   add_foreign_key "tasks", "chapters"
   add_foreign_key "tasks", "users", column: "character_id"
   add_foreign_key "tasks", "users", column: "narrator_id"

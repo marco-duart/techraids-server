@@ -1,7 +1,12 @@
 
 class GuildsController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, only: [ :index, :show, :update, :destroy, :create ]
   before_action :set_guild, only: [ :show, :update, :destroy ]
+
+  def simple_list
+    @guilds = Guild.select(:id, :name)
+    render json: @guilds
+  end
 
   def index
     @guilds = policy_scope(Guild)

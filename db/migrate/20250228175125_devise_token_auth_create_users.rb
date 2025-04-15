@@ -33,7 +33,7 @@ class DeviseTokenAuthCreateUsers < ActiveRecord::Migration[8.0]
       t.string :email
       t.integer :role, default: 0
       t.integer :experience, default: 0
-      t.float :gold, default: 0
+      t.integer :gold, default: 0
 
       ## Tokens
       t.json :tokens

@@ -8,6 +8,7 @@ class AddRelationshipsToModels < ActiveRecord::Migration[7.0]
     add_reference :users, :specialization, foreign_key: true
     add_reference :users, :current_chapter, foreign_key: { to_table: :chapters }
     add_reference :users, :active_title, foreign_key: { to_table: :honorary_titles }
+    add_reference :specializations, :guild, foreign_key: true
     add_reference :character_classes, :specialization, foreign_key: true
     add_reference :tasks, :character, foreign_key: { to_table: :users }
     add_reference :tasks, :chapter, foreign_key: true
