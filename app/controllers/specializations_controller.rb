@@ -1,14 +1,14 @@
 class SpecializationsController < ApplicationController
   before_action :authenticate_user!
-  before_action :authorize_narrator
   before_action :set_specialization, only: [ :show, :update, :destroy ]
 
   def index
-    @specializations = Specialization.all
+    @specializations = policy_scope(Specialization)
     render json: @specializations
   end
 
   def show
+    authorize @specialization
     render json: @specialization
   end
 

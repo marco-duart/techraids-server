@@ -3,7 +3,7 @@ class CharactersController < ApplicationController
   before_action :authorize_character
 
   def select_specialization
-    result = CharacterProgressionService.new(current_user).select_specialization(params[:specialization_id])
+    result = CharacterProgressionService.new(current_user).select_specialization(select_specialization_params)
 
     if result[:success]
       render json: result[:user], status: :ok
@@ -13,7 +13,7 @@ class CharactersController < ApplicationController
   end
 
   def switch_character_class
-    result = CharacterProgressionService.new(current_user).switch_character_class(params[:character_class_id])
+    result = CharacterProgressionService.new(current_user).switch_character_class(switch_character_class_params)
 
     if result[:success]
       render json: result[:user], status: :ok
@@ -32,7 +32,24 @@ class CharactersController < ApplicationController
     end
   end
 
+  def ranking
+    result = CharactersRankingService.new(current_user).guild_ranking
+    if result[:success]
+      render json: result[:data], status: :ok
+    else
+      render json: { error: result[:error] }, status: :not_found
+    end
+  end
+
   private
+
+  def switch_character_class_params
+    params.require(:character_class_id)
+  end
+
+  def select_specialization_params
+    params.require(:specialization_id)
+  end
 
   def authorize_character
     head :forbidden unless current_user.character?

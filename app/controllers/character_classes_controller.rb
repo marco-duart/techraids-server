@@ -1,14 +1,14 @@
 class CharacterClassesController < ApplicationController
   before_action :authenticate_user!
-  before_action :authorize_narrator
   before_action :set_character_class, only: [ :show, :update, :destroy ]
 
   def index
-    @character_classes = CharacterClass.all
+    @character_classes = policy_scope(CharacterClass)
     render json: @character_classes
   end
 
   def show
+    authorize @character_class
     render json: @character_class
   end
 
