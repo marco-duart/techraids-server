@@ -36,12 +36,23 @@ guild_infra = Guild.create!(name: 'Infra', description: 'Equipe de Infraestrutur
 specializations_dev = [ 'Front-end', 'Back-end', 'Full-stack', 'QA', 'DevOps' ]
 specializations_infra = [ 'Redes', 'Telefonia', 'Hardware' ]
 
-specializations = (specializations_dev + specializations_infra).map do |spec|
-  Specialization.create!(title: spec, description: "Especialização em #{spec}")
+specializations_dev.each do |spec|
+  Specialization.create!(
+    title: spec,
+    description: "Especialização em #{spec}",
+    guild: guild_dev
+  )
+end
+specializations_infra.each do |spec|
+  Specialization.create!(
+    title: spec,
+    description: "Especialização em #{spec}",
+    guild: guild_infra
+  )
 end
 
 # CharacterClasses
-specializations.each do |spec|
+Specialization.all.each do |spec|
   3.times do
     character_class = CharacterClass.create!(
       name: Faker::Job.title,
@@ -95,9 +106,9 @@ end
 
 # Characters
 40.times do |i|
-  spec = specializations.sample
   experience = rand(0..10000)
   guild = i.even? ? guild_dev : guild_infra
+  spec = guild.specializations.sample
   quest = guild == guild_dev ? quest_dev : quest_infra
 
   chapter_index = [ (experience / 150).to_i - 1, 0 ].max
@@ -116,7 +127,7 @@ end
     character_class: spec.character_classes.sample,
     specialization: spec,
     experience: experience,
-    gold: rand(0.0..500.0),
+    gold: rand(0..500),
     confirmed_at: Time.now
   )
 
