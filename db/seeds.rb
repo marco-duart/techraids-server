@@ -53,18 +53,23 @@ end
 
 # CharacterClasses
 Specialization.all.each do |spec|
-  3.times do
-    character_class = CharacterClass.create!(
-      name: Faker::Job.title,
-      slogan: Faker::Lorem.sentence,
-      required_experience: rand(100..1000),
-      entry_fee: rand(10..50),
-      specialization: spec
-    )
+  [
+    { times: 3, experience: 0, fee: 0 },
+    { times: 2, experience: -> { rand(100..1000) }, fee: -> { rand(10..50) } }
+  ].each do |config|
+    config[:times].times do
+      character_class = CharacterClass.create!(
+        name: Faker::Job.title,
+        slogan: Faker::Lorem.sentence,
+        required_experience: config[:experience].respond_to?(:call) ? config[:experience].call : config[:experience],
+        entry_fee: config[:fee].respond_to?(:call) ? config[:fee].call : config[:fee],
+        specialization: spec
+      )
 
-    if character_class_image_files.any?
-      image_path = CHARACTER_CLASS_IMAGES_DIR.join(character_class_image_files.sample)
-      character_class.image.attach(io: File.open(image_path), filename: File.basename(image_path))
+      if character_class_image_files.any?
+        image_path = CHARACTER_CLASS_IMAGES_DIR.join(character_class_image_files.sample)
+        character_class.image.attach(io: File.open(image_path), filename: File.basename(image_path))
+      end
     end
   end
 end
@@ -115,10 +120,21 @@ end
   chapter_index = [ chapter_index, quest.chapters.count - 1 ].min
   current_chapter = quest.chapters.offset(chapter_index).first || quest.chapters.first
 
+  unique_nickname = loop do
+    nickname = Faker::Internet.unique.username
+    break nickname unless User.exists?(nickname: nickname)
+  end
+
+  unique_email = loop do
+    email = Faker::Internet.unique.email
+    break email unless User.exists?(email: email)
+  end
+
+
   character = User.create!(
     name: Faker::Name.name,
-    nickname: Faker::Internet.username,
-    email: Faker::Internet.email,
+    nickname: unique_nickname,
+    email: unique_email,
     password: 'password',
     role: :character,
     village: village,
