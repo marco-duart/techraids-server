@@ -25,7 +25,18 @@ class User < ActiveRecord::Base
 
   validates :nickname, uniqueness: true
 
+  after_create :set_initial_chapter, if: :character?
+
   def current_level
     (experience / 25).floor + 1
+  end
+
+  private
+
+  def set_initial_chapter
+    return unless guild.present? && guild.quest.present?
+
+    first_chapter = guild.quest.chapters.first
+    update(current_chapter: first_chapter) if first_chapter
   end
 end
