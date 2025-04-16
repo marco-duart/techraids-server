@@ -10,4 +10,6 @@ DeviseTokenAuth.setup do |config|
   config.batch_request_buffer_throttle = 5.seconds
 
   config.enable_standard_devise_support = true
+
+  config.default_callbacks = false
 end
