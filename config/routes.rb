@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
   mount_devise_token_auth_for "User", at: "auth", controllers: {
     sessions: "custom_sessions",
-    token_validations: "custom_token_validations"
+    token_validations: "custom_token_validations",
+    registrations: "registrations"
   }
 
   get "up" => "rails/health#show", as: :rails_health_check
@@ -27,8 +28,8 @@ Rails.application.routes.draw do
 
   # end
   scope :characters, controller: :characters do
-    post "select_specialization", action: :select_specialization
-    post "switch_class", action: :switch_character_class
+    patch "select_specialization", action: :select_specialization
+    patch "switch_class", action: :switch_character_class
     get "character_quest", action: :character_quest
     get "ranking", action: :ranking
   end
