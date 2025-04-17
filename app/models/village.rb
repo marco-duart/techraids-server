@@ -1,4 +1,4 @@
 class Village < ApplicationRecord
-  has_many :guilds
-  has_many :users
+  has_many :guilds, dependent: :destroy
+  has_many :users, dependent: :nullify
 end

@@ -1,6 +1,6 @@
 class CharacterClass < ApplicationRecord
   belongs_to :specialization
-  has_many :users
+  has_many :users, dependent: :nullify
   has_one_attached :image
 
   def as_json(options = {})
