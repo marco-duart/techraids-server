@@ -5,7 +5,7 @@ class CharacterProgressionService
 
   def switch_character_class(character_class_id)
     character_class = CharacterClass.find(character_class_id)
-    authorize_switch(character_class)
+    authorize_switch_class(character_class)
 
     if @user.gold >= character_class.entry_fee && @user.experience >= character_class.required_experience
       @user.update(character_class_id: character_class.id, gold: @user.gold - character_class.entry_fee)
@@ -16,9 +16,10 @@ class CharacterProgressionService
   end
 
   def select_specialization(specialization_id)
-    authorize_select
+    specialization = Specialization.find(specialization_id)
+    authorize_select_specialization(specialization)
 
-    if @user.update(specialization_id: specialization_id)
+    if @user.update(specialization_id: specialization.id)
       { success: true, user: @user }
     else
       { success: false, errors: @user.errors.full_messages }
@@ -27,11 +28,11 @@ class CharacterProgressionService
 
   private
 
-  def authorize_switch(character_class)
-    raise Pundit::NotAuthorizedError unless CharacterPolicy.new(@user, character_class).switch?
+  def authorize_switch_class(character_class)
+    raise Pundit::NotAuthorizedError unless CharacterPolicy.new(@user, character_class).switch_class?
   end
 
-  def authorize_select
-    raise Pundit::NotAuthorizedError unless SpecializationPolicy.new(@user, @user).select?
+  def authorize_select_specialization(specialization)
+    raise Pundit::NotAuthorizedError unless CharacterPolicy.new(@user, specialization).select_specialization?
   end
 end
