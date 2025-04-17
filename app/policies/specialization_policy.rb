@@ -20,8 +20,4 @@ class SpecializationPolicy < ApplicationPolicy
   def destroy?
     user.narrator? && record.guild == user.guild
   end
-
-  def select?
-    user.character? && user.specialization.nil? && record.guild == user.guild
-  end
 end

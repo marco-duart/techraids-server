@@ -3,8 +3,14 @@ class CharacterClassPolicy < ApplicationPolicy
     def resolve
       if user.narrator?
         scope.joins(:specialization).where(specializations: { guild: user.guild })
-      else user.character?
-        scope.where(specialization: user.specialization)
+      elsif user.character?
+        scope.where(
+          specialization: user.specialization
+        ).where(
+          "required_experience <= ? AND entry_fee <= ?",
+          user.experience,
+          user.gold
+        )
       end
     end
   end
@@ -19,12 +25,5 @@ class CharacterClassPolicy < ApplicationPolicy
 
   def destroy?
     user.narrator? && record.specialization.guild == user.guild
-  end
-
-  def switch?
-    user.character? &&
-    record.specialization == user.specialization &&
-    record.required_experience <= user.experience &&
-    record.entry_fee <= user.gold
   end
 end
