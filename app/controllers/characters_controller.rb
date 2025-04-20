@@ -55,7 +55,7 @@ class CharactersController < ApplicationController
     result = CharacterStoreService.new(current_user).purchase_chest(purchase_chest_params)
 
     if result[:success]
-      render json: result, status: :ok
+      render json: result[:data], status: :ok
     else
       render json: { error: result[:error] }, status: :unprocessable_entity
     end
