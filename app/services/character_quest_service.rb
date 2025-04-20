@@ -1,17 +1,17 @@
 class CharacterQuestService
   include Rails.application.routes.url_helpers
 
-  def initialize(character)
-    @character = character
+  def initialize(user)
+    @user = user
   end
 
   def fetch_quest_and_companions
-    return { success: false, error: "Personagem não pertence a nenhuma guild!" } if @character.guild.nil?
+    return { success: false, error: "Personagem não pertence a nenhuma guild!" } if @user.guild.nil?
 
-    guild = @character.guild
+    guild = @user.guild
     quest = guild.quest
     chapters = quest.chapters
-    current_chapter = @character.current_chapter
+    current_chapter = @user.current_chapter
     guild_members = fetch_guild_members(guild)
 
     {
@@ -30,7 +30,7 @@ class CharacterQuestService
   private
 
   def fetch_guild_members(guild)
-    guild.characters.where.not(id: @character.id).select(:nickname, :experience, :character_class_id, :current_chapter_id, :active_title_id).map do |member|
+    guild.characters.where.not(id: @user.id).select(:nickname, :experience, :character_class_id, :current_chapter_id, :active_title_id).map do |member|
       {
         nickname: member.nickname,
         current_level: member.current_level,
@@ -47,10 +47,10 @@ class CharacterQuestService
   end
 
   def fetch_last_task
-    @character.character_tasks.last_pending || @character.tasks.last
+    @user.character_tasks.last_pending || @user.tasks.last
   end
 
   def fetch_last_mission
-    @character.character_missions.last_pending || @character.missions.last
+    @user.character_missions.last_pending || @user.missions.last
   end
 end
