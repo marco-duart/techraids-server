@@ -165,17 +165,40 @@ titles.each do |title|
 end
 
 # TreasureChests
-10.times do
-  TreasureChest.create!(
+guilds = [ guild_dev, guild_infra ]
+
+3.times do |i|
+  guild = guilds.sample
+  chest = TreasureChest.create!(
     title: Faker::Games::Zelda.item,
-    value: rand(50..500)
+    value: rand(100..500),
+    active: true,
+    guild: guild
   )
+
+  3.times do
+    Reward.create!(
+      name: Faker::Commerce.product_name,
+      description: Faker::Lorem.paragraph,
+      reward_type: rand(0..3),
+      is_limited: [ true, false ].sample,
+      stock_quantity: rand(5..25),
+      treasure_chest: chest
+    )
+  end
 end
 
 User.where(role: :character).each do |character|
+  guild_chests = TreasureChest.where(guild: character.guild)
+  next if guild_chests.empty?
+
+  chest = guild_chests.sample
+  reward = chest.rewards.sample
+
   CharacterTreasureChest.create!(
     character: character,
-    treasure_chest: TreasureChest.all.sample,
+    treasure_chest: chest,
+    reward: reward
   )
 end
 

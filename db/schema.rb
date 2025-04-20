@@ -81,7 +81,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_28_184900) do
     t.datetime "updated_at", null: false
     t.bigint "character_id"
     t.bigint "treasure_chest_id"
+    t.bigint "reward_id"
     t.index ["character_id"], name: "index_character_treasure_chests_on_character_id"
+    t.index ["reward_id"], name: "index_character_treasure_chests_on_reward_id"
     t.index ["treasure_chest_id"], name: "index_character_treasure_chests_on_treasure_chest_id"
   end
 
@@ -111,7 +113,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_28_184900) do
     t.string "title"
     t.text "description"
     t.integer "status", default: 0
-    t.float "gold_reward"
+    t.integer "gold_reward"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "character_id"
@@ -129,6 +131,18 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_28_184900) do
     t.datetime "updated_at", null: false
     t.bigint "guild_id"
     t.index ["guild_id"], name: "index_quests_on_guild_id"
+  end
+
+  create_table "rewards", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.integer "reward_type"
+    t.boolean "is_limited"
+    t.integer "stock_quantity"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "treasure_chest_id"
+    t.index ["treasure_chest_id"], name: "index_rewards_on_treasure_chest_id"
   end
 
   create_table "specializations", force: :cascade do |t|
@@ -157,9 +171,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_28_184900) do
 
   create_table "treasure_chests", force: :cascade do |t|
     t.string "title", null: false
-    t.float "value", null: false
+    t.integer "value", null: false
+    t.boolean "active", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "guild_id"
+    t.index ["guild_id"], name: "index_treasure_chests_on_guild_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -213,6 +230,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_28_184900) do
   add_foreign_key "bosses", "chapters"
   add_foreign_key "chapters", "quests"
   add_foreign_key "character_classes", "specializations"
+  add_foreign_key "character_treasure_chests", "rewards"
   add_foreign_key "character_treasure_chests", "treasure_chests"
   add_foreign_key "character_treasure_chests", "users", column: "character_id"
   add_foreign_key "guilds", "users", column: "narrator_id"
@@ -223,10 +241,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_28_184900) do
   add_foreign_key "missions", "users", column: "character_id"
   add_foreign_key "missions", "users", column: "narrator_id"
   add_foreign_key "quests", "guilds"
+  add_foreign_key "rewards", "treasure_chests"
   add_foreign_key "specializations", "guilds"
   add_foreign_key "tasks", "chapters"
   add_foreign_key "tasks", "users", column: "character_id"
   add_foreign_key "tasks", "users", column: "narrator_id"
+  add_foreign_key "treasure_chests", "guilds"
   add_foreign_key "users", "chapters", column: "current_chapter_id"
   add_foreign_key "users", "character_classes"
   add_foreign_key "users", "guilds"
