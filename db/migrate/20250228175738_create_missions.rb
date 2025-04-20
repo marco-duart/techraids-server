@@ -4,7 +4,7 @@ class CreateMissions < ActiveRecord::Migration[8.0]
       t.string :title
       t.text :description
       t.integer :status, default: 0
-      t.float :gold_reward
+      t.integer :gold_reward
 
       t.timestamps
     end
