@@ -39,5 +39,8 @@ Rails.application.routes.draw do
     patch "switch_class", action: :switch_character_class
     get "character_quest", action: :character_quest
     get "ranking", action: :ranking
+    get "purchase_history", action: :purchase_history
+    get "store_items", action: :store_items
+    post "purchase_chest", action: :purchase_chest
   end
 end
