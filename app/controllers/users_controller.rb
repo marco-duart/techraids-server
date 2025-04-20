@@ -11,7 +11,6 @@ class UsersController < ApplicationController
   end
 
   def update_photo
-    debugger
     if current_user.update(photo_params)
       render json: {
         success: true,

@@ -41,7 +41,41 @@ class CharactersController < ApplicationController
     end
   end
 
+  def store_items
+    result = CharacterStoreService.new(current_user).store_items
+
+    if result[:success]
+      render json: result[:data], status: :ok
+    else
+      render json: { error: result[:error] }, status: :forbidden
+    end
+  end
+
+  def purchase_chest
+    result = CharacterStoreService.new(current_user).purchase_chest(purchase_chest_params)
+
+    if result[:success]
+      render json: result, status: :ok
+    else
+      render json: { error: result[:error] }, status: :unprocessable_entity
+    end
+  end
+
+  def purchase_history
+    result = CharacterStoreService.new(current_user).purchase_history
+
+    if result[:success]
+      render json: result[:data], status: :ok
+    else
+      render json: { error: result[:error] }, status: :forbidden
+    end
+  end
+
   private
+
+  def purchase_chest_params
+    params.require(:treasure_chest_id)
+  end
 
   def switch_character_class_params
     params.require(:character_class_id)
