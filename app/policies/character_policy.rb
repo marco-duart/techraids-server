@@ -9,4 +9,19 @@ class CharacterPolicy < ApplicationPolicy
   def select_specialization?
     user.character? && user.specialization.nil? && user.guild == record.guild
   end
+
+  def purchase_chest?
+    user.character? &&
+    user.guild.present? &&
+    record.guild_id == user.guild_id
+  end
+
+  def view_store?
+    user.character? &&
+    user.guild.present?
+  end
+
+  def view_purchase_history?
+    user.character?
+  end
 end
