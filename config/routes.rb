@@ -29,6 +29,8 @@ Rails.application.routes.draw do
   resources :treasure_chests, only: [ :index, :show ]
   resources :specializations, only: [ :index, :show, :create, :update, :destroy ]
   resources :character_classes, only: [ :index, :show, :create, :update, :destroy ]
+  resources :guild_notices, only: [ :index ]
+  resources :arcane_announcements, only: [ :index ]
 
   # Rotas com regras de negócio para narrator
   # scope :narrator, controller: :narrator do

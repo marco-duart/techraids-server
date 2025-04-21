@@ -1,7 +1,7 @@
 class ArcaneAnnouncementPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
-      scope.current
+      scope.all
     end
   end
 

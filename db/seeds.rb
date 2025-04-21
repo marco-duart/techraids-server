@@ -12,7 +12,7 @@ user_image_files = Dir.children(USER_IMAGES_DIR)
 character_class_image_files = Dir.children(CHARACTER_CLASS_IMAGES_DIR)
 
 # Village
-village = Village.create!(name: 'TI', description: 'Departamento de Tecnologia da Informação')
+village = Village.create!(name: 'TI', description: 'Departamento de Tecnologia da Informação', village_type: 0)
 
 # Narrator (Gestor)
 narrator = User.create!(
@@ -205,13 +205,12 @@ end
 # Missions e Tasks
 User.where(role: :character).each do |character|
   5.times do
-    mission = Mission.create!(
+    Mission.create!(
       title: Faker::Lorem.sentence,
       description: Faker::Lorem.paragraph,
       status: rand(0..2),
       gold_reward: rand(50..200),
       character: character,
-      chapter: character.current_chapter || Chapter.all.sample,
       narrator: narrator
     )
 
@@ -222,7 +221,6 @@ User.where(role: :character).each do |character|
         status: rand(0..2),
         experience_reward: rand(10..100),
         character: character,
-        chapter: mission.chapter,
         narrator: narrator
       )
     end
