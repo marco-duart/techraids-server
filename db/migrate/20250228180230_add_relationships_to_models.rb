@@ -11,10 +11,8 @@ class AddRelationshipsToModels < ActiveRecord::Migration[7.0]
     add_reference :specializations, :guild, foreign_key: true
     add_reference :character_classes, :specialization, foreign_key: true
     add_reference :tasks, :character, foreign_key: { to_table: :users }
-    add_reference :tasks, :chapter, foreign_key: true
     add_reference :tasks, :narrator, foreign_key: { to_table: :users }
     add_reference :missions, :character, foreign_key: { to_table: :users }
-    add_reference :missions, :chapter, foreign_key: true
     add_reference :missions, :narrator, foreign_key: { to_table: :users }
     add_reference :treasure_chests, :guild, foreign_key: true
     add_reference :rewards, :treasure_chest, foreign_key: true

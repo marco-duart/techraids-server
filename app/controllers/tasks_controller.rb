@@ -16,7 +16,6 @@ class TasksController < ApplicationController
     @task = Task.new(create_task_params)
     @task.character = current_user
     @task.narrator = current_user.guild.narrator if current_user.guild
-    @task.chapter = current_user.current_chapter
     authorize @task
 
     if @task.save
@@ -48,7 +47,7 @@ class TasksController < ApplicationController
   end
 
   def create_task_params
-    params.require(:task).permit(:title, :description, :chapter_id)
+    params.require(:task).permit(:title, :description)
   end
 
   def update_task_params

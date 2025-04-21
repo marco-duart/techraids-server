@@ -26,6 +26,8 @@ class TaskPolicy < ApplicationPolicy
   end
 
   def destroy?
-    user.narrator?
+    return true if user.narrator?
+
+    user.character? && record.character == user && record.pending?
   end
 end
