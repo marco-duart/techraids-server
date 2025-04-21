@@ -42,6 +42,20 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_28_184900) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "arcane_announcements", force: :cascade do |t|
+    t.string "title"
+    t.text "content"
+    t.integer "announcement_type"
+    t.integer "priority"
+    t.boolean "active", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "author_id"
+    t.bigint "village_id"
+    t.index ["author_id"], name: "index_arcane_announcements_on_author_id"
+    t.index ["village_id"], name: "index_arcane_announcements_on_village_id"
+  end
+
   create_table "bosses", force: :cascade do |t|
     t.string "name", null: false
     t.string "slogan"
@@ -87,6 +101,19 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_28_184900) do
     t.index ["treasure_chest_id"], name: "index_character_treasure_chests_on_treasure_chest_id"
   end
 
+  create_table "guild_notices", force: :cascade do |t|
+    t.string "title"
+    t.text "content"
+    t.integer "priority"
+    t.boolean "active", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "author_id"
+    t.bigint "guild_id"
+    t.index ["author_id"], name: "index_guild_notices_on_author_id"
+    t.index ["guild_id"], name: "index_guild_notices_on_guild_id"
+  end
+
   create_table "guilds", force: :cascade do |t|
     t.string "name", null: false
     t.text "description"
@@ -117,9 +144,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_28_184900) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "character_id"
-    t.bigint "chapter_id"
     t.bigint "narrator_id"
-    t.index ["chapter_id"], name: "index_missions_on_chapter_id"
     t.index ["character_id"], name: "index_missions_on_character_id"
     t.index ["narrator_id"], name: "index_missions_on_narrator_id"
   end
@@ -162,9 +187,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_28_184900) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "character_id"
-    t.bigint "chapter_id"
     t.bigint "narrator_id"
-    t.index ["chapter_id"], name: "index_tasks_on_chapter_id"
     t.index ["character_id"], name: "index_tasks_on_character_id"
     t.index ["narrator_id"], name: "index_tasks_on_narrator_id"
   end
@@ -221,29 +244,32 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_28_184900) do
   create_table "villages", force: :cascade do |t|
     t.string "name", null: false
     t.text "description"
+    t.integer "village_type", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "arcane_announcements", "users", column: "author_id"
+  add_foreign_key "arcane_announcements", "villages"
   add_foreign_key "bosses", "chapters"
   add_foreign_key "chapters", "quests"
   add_foreign_key "character_classes", "specializations"
   add_foreign_key "character_treasure_chests", "rewards"
   add_foreign_key "character_treasure_chests", "treasure_chests"
   add_foreign_key "character_treasure_chests", "users", column: "character_id"
+  add_foreign_key "guild_notices", "guilds"
+  add_foreign_key "guild_notices", "users", column: "author_id"
   add_foreign_key "guilds", "users", column: "narrator_id"
   add_foreign_key "guilds", "villages"
   add_foreign_key "honorary_titles", "users", column: "character_id"
   add_foreign_key "honorary_titles", "users", column: "narrator_id"
-  add_foreign_key "missions", "chapters"
   add_foreign_key "missions", "users", column: "character_id"
   add_foreign_key "missions", "users", column: "narrator_id"
   add_foreign_key "quests", "guilds"
   add_foreign_key "rewards", "treasure_chests"
   add_foreign_key "specializations", "guilds"
-  add_foreign_key "tasks", "chapters"
   add_foreign_key "tasks", "users", column: "character_id"
   add_foreign_key "tasks", "users", column: "narrator_id"
   add_foreign_key "treasure_chests", "guilds"

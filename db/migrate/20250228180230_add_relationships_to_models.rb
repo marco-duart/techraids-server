@@ -24,5 +24,9 @@ class AddRelationshipsToModels < ActiveRecord::Migration[7.0]
     add_reference :quests, :guild, foreign_key: true
     add_reference :chapters, :quest, foreign_key: true
     add_reference :bosses, :chapter, foreign_key: true
+    add_reference :guild_notices, :author, foreign_key: { to_table: :users }
+    add_reference :guild_notices, :guild, foreign_key: true
+    add_reference :arcane_announcements, :author, foreign_key: { to_table: :users }
+    add_reference :arcane_announcements, :village, foreign_key: true
   end
 end
