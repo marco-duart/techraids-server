@@ -24,4 +24,9 @@ class CharacterPolicy < ApplicationPolicy
   def view_purchase_history?
     user.character?
   end
+
+  def switch_active_title?
+    user.character? &&
+    user == record.character
+  end
 end

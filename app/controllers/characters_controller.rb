@@ -71,6 +71,17 @@ class CharactersController < ApplicationController
     end
   end
 
+  def switch_active_title
+    result = CharacterProgressionService.new(current_user).switch_active_title(switch_active_title_params)
+
+    if result[:success]
+      render json: result, status: :ok
+    else
+      render json: { errors: result[:errors] || result[:error] },
+             status: result[:error] ? :not_found : :unprocessable_entity
+    end
+  end
+
   private
 
   def purchase_chest_params
@@ -83,6 +94,10 @@ class CharactersController < ApplicationController
 
   def select_specialization_params
     params.require(:specialization_id)
+  end
+
+  def switch_active_title_params
+    params.require(:honorary_title_id)
   end
 
   def authorize_character
