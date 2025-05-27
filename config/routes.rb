@@ -29,6 +29,7 @@ Rails.application.routes.draw do
   resources :treasure_chests, only: [ :index, :show ]
   resources :specializations, only: [ :index, :show, :create, :update, :destroy ]
   resources :character_classes, only: [ :index, :show, :create, :update, :destroy ]
+  resources :honorary_titles, only: [ :index, :show, :create, :update, :destroy ]
   resources :guild_notices, only: [ :index ]
   resources :arcane_announcements, only: [ :index ]
 
@@ -39,6 +40,7 @@ Rails.application.routes.draw do
   scope :characters, controller: :characters do
     patch "select_specialization", action: :select_specialization
     patch "switch_class", action: :switch_character_class
+    patch "switch_title", action: :switch_active_title
     get "character_quest", action: :character_quest
     get "ranking", action: :ranking
     get "purchase_history", action: :purchase_history
