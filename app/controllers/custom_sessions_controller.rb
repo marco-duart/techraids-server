@@ -6,7 +6,8 @@ class CustomSessionsController < DeviseTokenAuth::SessionsController
       :village,
       :guild,
       :specialization,
-      :active_title
+      :active_title,
+      :acquired_titles
     ]).merge(
       photo_url: @resource.photo.attached? ? rails_blob_url(@resource.photo) : nil,
       current_level: @resource.current_level
