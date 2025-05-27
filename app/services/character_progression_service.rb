@@ -13,6 +13,8 @@ class CharacterProgressionService
     else
       { success: false, error: "Você não tem recursos suficientes para trocar de classe." }
     end
+  rescue ActiveRecord::RecordNotFound
+    { success: false, error: "Classe não encontrada" }
   end
 
   def select_specialization(specialization_id)
@@ -24,6 +26,23 @@ class CharacterProgressionService
     else
       { success: false, errors: @user.errors.full_messages }
     end
+  rescue ActiveRecord::RecordNotFound
+    { success: false, error: "Especialização não encontrada" }
+  end
+
+  def switch_active_title(honorary_title_id)
+    honorary_title = HonoraryTitle.find(honorary_title_id)
+    authorize_switch_active_title(honorary_title)
+
+    if @user.update(active_title: honorary_title)
+      {
+        success: true
+      }
+    else
+      { success: false, errors: @user.errors.full_messages }
+    end
+  rescue ActiveRecord::RecordNotFound
+    { success: false, error: "Título não encontrado" }
   end
 
   private
@@ -34,5 +53,9 @@ class CharacterProgressionService
 
   def authorize_select_specialization(specialization)
     raise Pundit::NotAuthorizedError unless CharacterPolicy.new(@user, specialization).select_specialization?
+  end
+
+  def authorize_switch_active_title(honorary_title)
+    raise Pundit::NotAuthorizedError unless CharacterPolicy.new(@user, honorary_title).switch_active_title?
   end
 end
