@@ -43,6 +43,6 @@ class HonoraryTitlesController < ApplicationController
   end
 
   def honorary_title_params
-    params.require(:honorary_title).permit(:name, :description, :character_id, :narrator_id, :logo)
+    params.require(:honorary_title).permit(:title, :slogan, :character_id, :narrator_id)
   end
 end
