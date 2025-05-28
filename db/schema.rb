@@ -60,11 +60,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_28_184900) do
     t.string "name", null: false
     t.string "slogan"
     t.text "description"
-    t.integer "required_experience", null: false
+    t.boolean "defeated", default: false
+    t.boolean "reward_claimed", default: false
+    t.string "reward_description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "chapter_id"
+    t.bigint "finishing_character_id"
     t.index ["chapter_id"], name: "index_bosses_on_chapter_id"
+    t.index ["finishing_character_id"], name: "index_bosses_on_finishing_character_id"
   end
 
   create_table "chapters", force: :cascade do |t|
@@ -73,9 +77,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_28_184900) do
     t.integer "required_experience", null: false
     t.integer "position_x"
     t.integer "position_y"
+    t.decimal "position", precision: 10, scale: 2, default: "0.0", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "quest_id"
+    t.index ["quest_id", "position"], name: "index_chapters_on_quest_id_and_position", unique: true
     t.index ["quest_id"], name: "index_chapters_on_quest_id"
   end
 
@@ -254,6 +260,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_28_184900) do
   add_foreign_key "arcane_announcements", "users", column: "author_id"
   add_foreign_key "arcane_announcements", "villages"
   add_foreign_key "bosses", "chapters"
+  add_foreign_key "bosses", "users", column: "finishing_character_id"
   add_foreign_key "chapters", "quests"
   add_foreign_key "character_classes", "specializations"
   add_foreign_key "character_treasure_chests", "rewards"
