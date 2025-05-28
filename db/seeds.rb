@@ -8,8 +8,10 @@ points = JSON.parse(File.read(points_file))
 # Imagens
 USER_IMAGES_DIR = Rails.root.join('db', 'seeds', 'images', 'character')
 CHARACTER_CLASS_IMAGES_DIR = Rails.root.join('db', 'seeds', 'images', 'character_class')
+BOSS_IMAGES_DIR = Rails.root.join('db', 'seeds', 'images', 'boss')
 user_image_files = Dir.children(USER_IMAGES_DIR)
 character_class_image_files = Dir.children(CHARACTER_CLASS_IMAGES_DIR)
+boss_image_files = Dir.children(BOSS_IMAGES_DIR)
 
 # Village
 village = Village.create!(name: 'TI', description: 'Departamento de Tecnologia da Informação', village_type: 0)
@@ -84,8 +86,9 @@ boss_chapter_indices = [ 6, 15, 21, 28, 36, 43, 48, 52, 53, 56, 64, 74, 78, 79 ]
 
 quests.each do |quest|
   points.each_with_index do |point, i|
-    base_experience = (i + 1) * 150
-    is_boss_chapter = boss_chapter_indices.include?(i + 1)
+    chapter_number = i + 1
+    base_experience = chapter_number * 150
+    is_boss_chapter = boss_chapter_indices.include?(chapter_number)
 
     chapter = Chapter.create!(
       title: "Capítulo #{i + 1}",
@@ -93,18 +96,25 @@ quests.each do |quest|
       required_experience: is_boss_chapter ? base_experience + 200 : base_experience,
       quest: quest,
       position_x: point["x"],
-      position_y: point["y"]
+      position_y: point["y"],
+      position: chapter_number
     )
 
     # Boss
     if is_boss_chapter
-      Boss.create!(
+      boss = Boss.create!(
         name: Faker::Games::ElderScrolls.creature,
         slogan: Faker::Quotes::Shakespeare.hamlet_quote,
         description: "Um chefe no capítulo #{chapter.title}",
-        required_experience: chapter.required_experience + rand(50..100),
-        chapter: chapter
+        chapter: chapter,
+        defeated: false,
+        reward_claimed: false,
+        reward_description: Faker::Lorem.sentence
       )
+      if boss_image_files.any?
+        image_path = BOSS_IMAGES_DIR.join(boss_image_files.sample)
+        boss.image.attach(io: File.open(image_path), filename: File.basename(image_path))
+      end
     end
   end
 end
