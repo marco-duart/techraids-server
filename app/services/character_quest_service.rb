@@ -12,7 +12,13 @@ class CharacterQuestService
     quest = guild.quest
     chapters = quest.chapters
     current_chapter = @user.current_chapter
+    current_boss = current_chapter.boss
     guild_members = fetch_guild_members(guild)
+
+    boss_data = current_boss&.as_json&.merge(
+                  team_can_defeat: current_boss.team_can_defeat?,
+                  is_finishing_hero: current_boss.finishing_hero?(@user)
+                )
 
     {
       success: true,
@@ -20,6 +26,7 @@ class CharacterQuestService
         quest: quest,
         chapters: chapters,
         current_chapter: current_chapter,
+        current_boss: boss_data,
         guild_members: guild_members,
         last_task: fetch_last_task,
         last_mission: fetch_last_mission
@@ -30,8 +37,9 @@ class CharacterQuestService
   private
 
   def fetch_guild_members(guild)
-    guild.characters.where.not(id: @user.id).select(:nickname, :experience, :character_class_id, :current_chapter_id, :active_title_id).map do |member|
+    guild.characters.where.not(id: @user.id).select(:id, :nickname, :experience, :character_class_id, :current_chapter_id, :active_title_id).map do |member|
       {
+        id: member.id,
         nickname: member.nickname,
         current_level: member.current_level,
         experience: member.experience,
