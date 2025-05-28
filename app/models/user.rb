@@ -17,6 +17,7 @@ class User < ActiveRecord::Base
   has_many :missions, class_name: "Mission", foreign_key: "narrator_id", dependent: :destroy
   has_many :character_treasure_chests, foreign_key: "character_id", dependent: :destroy
   has_many :treasure_chests, through: :character_treasure_chests, dependent: :destroy
+  has_many :defeated_bosses, class_name: "Boss", foreign_key: "finishing_character_id", dependent: :nullify
 
   has_many :honorary_titles, class_name: "HonoraryTitle", foreign_key: "narrator_id", dependent: :destroy
   has_many :acquired_titles, class_name: "HonoraryTitle", foreign_key: "character_id", dependent: :destroy
