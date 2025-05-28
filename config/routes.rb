@@ -46,5 +46,7 @@ Rails.application.routes.draw do
     get "purchase_history", action: :purchase_history
     get "store_items", action: :store_items
     post "purchase_chest", action: :purchase_chest
+    post "progress_chapter", action: :progress_chapter
+    post "defeat_boss", action: :defeat_boss
   end
 end
