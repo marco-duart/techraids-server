@@ -4,7 +4,9 @@ class CreateBosses < ActiveRecord::Migration[8.0]
       t.string :name, null: false
       t.string :slogan
       t.text :description
-      t.integer :required_experience, null: false
+      t.boolean :defeated, default: false
+      t.boolean :reward_claimed, default: false
+      t.string :reward_description
 
       t.timestamps
     end
