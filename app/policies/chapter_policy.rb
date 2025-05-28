@@ -4,7 +4,7 @@ class ChapterPolicy < ApplicationPolicy
       if user.narrator?
         scope.all
       else
-        scope.where(quest_id: user.current_chapter.quest_id)
+        scope.joins(:quest).where(quests: { guild_id: user.guild_id })
       end
     end
   end
@@ -14,7 +14,7 @@ class ChapterPolicy < ApplicationPolicy
   end
 
   def show?
-    user.narrator? || record.quest_id == user.current_chapter.quest_id
+    user.narrator? || record.quest.guild_id == user.guild_id
   end
 
   def create?
@@ -27,5 +27,11 @@ class ChapterPolicy < ApplicationPolicy
 
   def destroy?
     user.narrator?
+  end
+
+  def progress?
+    return false unless user.character?
+
+    user.current_chapter.quest.guild_id == user.guild_id
   end
 end
