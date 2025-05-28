@@ -82,6 +82,26 @@ class CharactersController < ApplicationController
     end
   end
 
+  def progress_chapter
+    result = ChapterProgressionService.new(current_user).progress
+
+    if result[:success]
+      render json: result, status: :ok
+    else
+      render json: { error: result[:error] }, status: :unprocessable_entity
+    end
+  end
+
+  def defeat_boss
+    result = BossDefeatService.new(current_user).defeat
+
+    if result[:success]
+      render json: result, status: :ok
+    else
+      render json: { error: result[:error] }, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def purchase_chest_params
