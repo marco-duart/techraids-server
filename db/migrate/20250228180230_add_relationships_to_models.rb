@@ -23,7 +23,9 @@ class AddRelationshipsToModels < ActiveRecord::Migration[7.0]
     add_reference :honorary_titles, :narrator, foreign_key: { to_table: :users }
     add_reference :quests, :guild, foreign_key: true
     add_reference :chapters, :quest, foreign_key: true
+    add_index :chapters, [ :quest_id, :position ], unique: true
     add_reference :bosses, :chapter, foreign_key: true
+    add_reference :bosses, :finishing_character, foreign_key: { to_table: :users }
     add_reference :guild_notices, :author, foreign_key: { to_table: :users }
     add_reference :guild_notices, :guild, foreign_key: true
     add_reference :arcane_announcements, :author, foreign_key: { to_table: :users }
