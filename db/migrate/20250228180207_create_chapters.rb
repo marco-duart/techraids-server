@@ -6,6 +6,7 @@ class CreateChapters < ActiveRecord::Migration[8.0]
       t.integer :required_experience, null: false
       t.integer :position_x
       t.integer :position_y
+      t.decimal :position, precision: 10, scale: 2, null: false, default: 0.0
 
       t.timestamps
     end
