@@ -10,7 +10,7 @@ class CharacterQuestService
 
     guild = @user.guild
     quest = guild.quest
-    chapters = quest.chapters
+    chapters = fetch_chapters_with_bosses(quest.chapters.includes(boss: { finishing_character: :character_class }))
     current_chapter = @user.current_chapter
     current_boss = current_chapter.boss
     guild_members = fetch_guild_members(guild)
@@ -35,6 +35,30 @@ class CharacterQuestService
   end
 
   private
+
+  def fetch_chapters_with_bosses(chapters)
+    chapters.ordered.map do |chapter|
+      chapter_data = chapter.as_json
+
+      if chapter.boss.present?
+        boss = chapter.boss
+        boss_data = boss.as_json
+
+        if boss.finishing_character.present?
+          finishing = boss.finishing_character
+          boss_data[:finishing_character] = {
+            id: finishing.id,
+            nickname: finishing.nickname,
+            image_url: finishing.character_class.image.attached? ? rails_blob_url(finishing.character_class.image) : nil
+          }
+        end
+
+        chapter_data[:boss] = boss_data
+      end
+
+      chapter_data
+    end
+  end
 
   def fetch_guild_members(guild)
     guild.characters.where.not(id: @user.id).select(:id, :nickname, :experience, :character_class_id, :current_chapter_id, :active_title_id).map do |member|
