@@ -15,7 +15,8 @@ class CharactersRankingService
         missions_completed: ranking_by_missions_completed(characters),
         tasks_completed: ranking_by_tasks_completed(characters),
         gold_earned: ranking_by_gold_earned(characters),
-        experience: ranking_by_experience(characters)
+        experience: ranking_by_experience(characters),
+        bosses_killed: ranking_by_bosses_killed(characters)
       }
     }
   end
@@ -53,5 +54,13 @@ class CharactersRankingService
     characters.order(experience: :desc)
               .limit(10)
               .pluck(:nickname, :experience)
+  end
+
+  def ranking_by_bosses_killed(characters)
+    characters.left_joins(:defeated_bosses)
+              .group("users.id")
+              .order("COUNT(bosses.id) DESC")
+              .limit(10)
+              .pluck("users.nickname, COUNT(bosses.id) as bosses_killed")
   end
 end
