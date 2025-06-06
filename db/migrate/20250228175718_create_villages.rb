@@ -4,6 +4,7 @@ class CreateVillages < ActiveRecord::Migration[8.0]
       t.string :name, null: false
       t.text :description
       t.integer :village_type, null: false
+      t.boolean :active, default: true
 
       t.timestamps
     end
