@@ -123,6 +123,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_28_184900) do
   create_table "guilds", force: :cascade do |t|
     t.string "name", null: false
     t.text "description"
+    t.boolean "active", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "village_id"
@@ -147,6 +148,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_28_184900) do
     t.text "description"
     t.integer "status", default: 0
     t.integer "gold_reward"
+    t.datetime "completed_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "character_id"
@@ -190,6 +192,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_28_184900) do
     t.text "description"
     t.integer "status", default: 0
     t.integer "experience_reward"
+    t.datetime "completed_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "character_id"
@@ -226,6 +229,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_28_184900) do
     t.integer "role", default: 0
     t.integer "experience", default: 0
     t.integer "gold", default: 0
+    t.boolean "active", default: true
     t.json "tokens"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -251,6 +255,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_28_184900) do
     t.string "name", null: false
     t.text "description"
     t.integer "village_type", null: false
+    t.boolean "active", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
