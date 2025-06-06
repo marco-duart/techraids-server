@@ -3,7 +3,7 @@ class CharactersController < ApplicationController
   before_action :authorize_character
 
   def select_specialization
-    result = CharacterProgressionService.new(current_user).select_specialization(select_specialization_params)
+    result = Character::StatusProgressionService.new(current_user).select_specialization(select_specialization_params)
 
     if result[:success]
       render json: result[:user], status: :ok
@@ -13,7 +13,7 @@ class CharactersController < ApplicationController
   end
 
   def switch_character_class
-    result = CharacterProgressionService.new(current_user).switch_character_class(switch_character_class_params)
+    result = Character::StatusProgressionService.new(current_user).switch_character_class(switch_character_class_params)
 
     if result[:success]
       render json: result[:user], status: :ok
@@ -23,7 +23,7 @@ class CharactersController < ApplicationController
   end
 
   def character_quest
-    result = CharacterQuestService.new(current_user).fetch_quest_and_companions
+    result = Character::QuestService.new(current_user).fetch_quest_and_companions
 
     if result[:success]
       render json: result[:data], status: :ok
@@ -33,7 +33,7 @@ class CharactersController < ApplicationController
   end
 
   def ranking
-    result = CharactersRankingService.new(current_user).guild_ranking
+    result = Character::RankingService.new(current_user).guild_ranking
     if result[:success]
       render json: result[:data], status: :ok
     else
@@ -42,7 +42,7 @@ class CharactersController < ApplicationController
   end
 
   def store_items
-    result = CharacterStoreService.new(current_user).store_items
+    result = Character::StoreService.new(current_user).store_items
 
     if result[:success]
       render json: result[:data], status: :ok
@@ -52,7 +52,7 @@ class CharactersController < ApplicationController
   end
 
   def purchase_chest
-    result = CharacterStoreService.new(current_user).purchase_chest(purchase_chest_params)
+    result = Character::StoreService.new(current_user).purchase_chest(purchase_chest_params)
 
     if result[:success]
       render json: result[:data], status: :ok
@@ -62,7 +62,7 @@ class CharactersController < ApplicationController
   end
 
   def purchase_history
-    result = CharacterStoreService.new(current_user).purchase_history
+    result = Character::StoreService.new(current_user).purchase_history
 
     if result[:success]
       render json: result[:data], status: :ok
@@ -72,7 +72,7 @@ class CharactersController < ApplicationController
   end
 
   def switch_active_title
-    result = CharacterProgressionService.new(current_user).switch_active_title(switch_active_title_params)
+    result = Character::StatusProgressionService.new(current_user).switch_active_title(switch_active_title_params)
 
     if result[:success]
       render json: result, status: :ok
@@ -83,7 +83,7 @@ class CharactersController < ApplicationController
   end
 
   def progress_chapter
-    result = ChapterProgressionService.new(current_user).progress
+    result = Character::ChapterProgressionService.new(current_user).progress
 
     if result[:success]
       render json: result, status: :ok
@@ -93,7 +93,7 @@ class CharactersController < ApplicationController
   end
 
   def defeat_boss
-    result = BossDefeatService.new(current_user).defeat
+    result = Character::BossDefeatService.new(current_user).defeat
 
     if result[:success]
       render json: result, status: :ok
