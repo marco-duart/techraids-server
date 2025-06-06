@@ -11,6 +11,8 @@ class User < ActiveRecord::Base
   belongs_to :current_chapter, class_name: "Chapter", optional: true
   belongs_to :active_title, class_name: "HonoraryTitle", optional: true
 
+  has_one :managed_guild, class_name: "Guild", foreign_key: "narrator_id", dependent: :nullify
+
   has_many :character_tasks, class_name: "Task", foreign_key: "character_id", dependent: :destroy
   has_many :tasks, class_name: "Task", foreign_key: "narrator_id", dependent: :destroy
   has_many :character_missions, class_name: "Mission", foreign_key: "character_id", dependent: :destroy

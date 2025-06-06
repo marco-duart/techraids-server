@@ -5,9 +5,9 @@ class ArcaneAnnouncement < ApplicationRecord
   validates :title, :content, :announcement_type, presence: true
 
   enum :announcement_type, {
-    arcane_decree: 0,
-    runic_proclamation: 1,
-    lore_whisper: 2
+    arcane_decree: 0,       # TI
+    lore_whisper: 2,        # RH/DP
+    runic_proclamation: 1   # Marketing
   }
   enum :priority, { low: 0, normal: 1, high: 2, critical: 3 }
 
