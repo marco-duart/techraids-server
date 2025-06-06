@@ -49,4 +49,8 @@ Rails.application.routes.draw do
     post "progress_chapter", action: :progress_chapter
     post "defeat_boss", action: :defeat_boss
   end
+
+  scope :narrators do
+    get "performance_report", to: "narrators#performance_report"
+  end
 end
