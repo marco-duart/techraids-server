@@ -5,6 +5,7 @@ class CreateTasks < ActiveRecord::Migration[8.0]
       t.text :description
       t.integer :status, default: 0
       t.integer :experience_reward
+      t.datetime :completed_at
 
       t.timestamps
     end
