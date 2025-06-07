@@ -16,10 +16,12 @@ points = JSON.parse(File.read(points_file))
 
 # Imagens
 USER_IMAGES_DIR = Rails.root.join('db', 'seeds', 'images', 'character')
-CHARACTER_CLASS_IMAGES_DIR = Rails.root.join('db', 'seeds', 'images', 'character_class')
+MALE_CHARACTER_CLASS_IMAGES_DIR = Rails.root.join('db', 'seeds', 'images', 'character_class', 'male')
+FEMALE_CHARACTER_CLASS_IMAGES_DIR = Rails.root.join('db', 'seeds', 'images', 'character_class', 'female')
 BOSS_IMAGES_DIR = Rails.root.join('db', 'seeds', 'images', 'boss')
 user_image_files = Dir.children(USER_IMAGES_DIR)
-character_class_image_files = Dir.children(CHARACTER_CLASS_IMAGES_DIR)
+male_character_class_image_files = Dir.children(MALE_CHARACTER_CLASS_IMAGES_DIR)
+female_character_class_image_files = Dir.children(FEMALE_CHARACTER_CLASS_IMAGES_DIR)
 boss_image_files = Dir.children(BOSS_IMAGES_DIR)
 
 # Villages
@@ -31,19 +33,19 @@ village_mkt = Village.create!(name: 'Marketing', description: 'Departamento de M
 narrators = [
   {
     name: 'Gestor de Dev', nickname: 'narrator-dev', email: 'dev@techraids.com', village: village_ti,
-    guild: { name: 'Dev', description: 'Equipe de Desenvolvimento', specializations: [ 'Front-end', 'Back-end', 'Full-stack', 'QA', 'DevOps' ] }
+    guild: { name: 'Desenvolvimento', description: 'Equipe de Desenvolvimento', specializations: [ 'Front-end', 'Back-end', 'Full-stack', 'QA', 'DevOps' ] }
   },
   {
     name: 'Gestor de Infra', nickname: 'narrator-infra', email: 'infra@techraids.com', village: village_ti,
     guild: { name: 'Infra', description: 'Equipe de Infraestrutura', specializations: [ 'Redes', 'Telefonia', 'Hardware' ] }
   },
   {
-    name: 'Gestor de RH', nickname: 'narrator-rh', email: 'rh@techraids.com', village: village_rh,
-    guild: { name: 'RH', description: 'Equipe de Recrutamento e Seleção', specializations: [ 'Seleção', 'Onboarding', 'Treinamento' ] }
+    name: 'Gestor de GG', nickname: 'narrator-gg', email: 'genteegestao@techraids.com', village: village_rh,
+    guild: { name: 'Gente e Gestão', description: 'Equipe de RH e DP', specializations: [ 'Seleção', 'Folha de Ponto', 'Treinamento', 'Benefícios' ] }
   },
   {
     name: 'Gestor de Marketing', nickname: 'narrator-mkt', email: 'marketing@techraids.com', village: village_mkt,
-    guild: { name: 'Digital', description: 'Marketing Digital', specializations: [ 'Mídias Sociais', 'SEO', 'Conteúdo' ] }
+    guild: { name: 'Digital', description: 'Marketing Digital', specializations: [ 'Mídias Sociais', 'SEO', 'Conteúdo', 'Design' ] }
   }
 ]
 
@@ -80,15 +82,23 @@ narrators.each do |narrator_data|
       { times: 2, experience: -> { rand(100..1000) }, fee: -> { rand(10..50) } }
     ].each do |config|
       config[:times].times do
-        character_class = CharacterClass.create!(
+        male_character_class = CharacterClass.create!(
           name: Faker::Job.title,
           slogan: Faker::Lorem.sentence,
           required_experience: config[:experience].respond_to?(:call) ? config[:experience].call : config[:experience],
           entry_fee: config[:fee].respond_to?(:call) ? config[:fee].call : config[:fee],
-          specialization: specialization
+          specialization: specialization,
         )
+        attach_random_image(male_character_class, MALE_CHARACTER_CLASS_IMAGES_DIR, male_character_class_image_files)
 
-        attach_random_image(character_class, CHARACTER_CLASS_IMAGES_DIR, character_class_image_files)
+        female_character_class = CharacterClass.create!(
+          name: male_character_class.name,
+          slogan: male_character_class.slogan,
+          required_experience: male_character_class.required_experience,
+          entry_fee: male_character_class.entry_fee,
+          specialization: specialization,
+        )
+        attach_random_image(female_character_class, FEMALE_CHARACTER_CLASS_IMAGES_DIR, female_character_class_image_files)
       end
     end
   end
@@ -222,7 +232,7 @@ User.where(role: :character).each do |character|
 end
 
 # ArcaneAnnouncements
-if (rh_narrator = User.find_by(email: 'rh@techraids.com'))
+if (rh_narrator = User.find_by(email: 'genteegestao@techraids.com'))
   [
     { title: 'Mudanças no processo de férias', priority: :high },
     { title: 'Novos benefícios disponíveis', priority: :normal },
