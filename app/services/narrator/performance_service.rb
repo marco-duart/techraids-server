@@ -2,8 +2,8 @@ module Narrator
   class PerformanceService
     def initialize(user, params)
       @user = user
-      @start_date = (params[:start_date] || Date.current.beginning_of_month).beginning_of_day
-      @end_date = (params[:end_date] || Date.current).end_of_day
+      @start_date = (Date.parse(params[:start_date]) || Date.current.beginning_of_month).beginning_of_day
+      @end_date = (Date.parse(params[:end_date]) || Date.current).end_of_day
     end
 
     def performance_report
