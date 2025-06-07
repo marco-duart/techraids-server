@@ -14,6 +14,7 @@ module Narrator
       report_data = characters.map do |character|
         {
           character_id: character.id,
+          name: character.name,
           nickname: character.nickname,
           tasks: task_stats(character),
           missions: mission_stats(character),
