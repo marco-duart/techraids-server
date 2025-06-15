@@ -1,7 +1,7 @@
 class TaskPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
-      if user.narrator?
+      if user.where(narrator: user)
         scope.all
       else
         scope.where(character: user)
@@ -18,11 +18,11 @@ class TaskPolicy < ApplicationPolicy
   end
 
   def show?
-    user.narrator? || record.character == user
+    record.narrator == user || record.character == user
   end
 
   def update?
-    user.narrator?
+    record.narrator == user
   end
 
   def destroy?
