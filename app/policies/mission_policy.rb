@@ -2,7 +2,7 @@ class MissionPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
       if user.narrator?
-        scope.all
+        scope.where(narrator: user)
       else
         scope.where(character: user)
       end
@@ -14,18 +14,18 @@ class MissionPolicy < ApplicationPolicy
   end
 
   def show?
-    user.narrator? || record.character == user
+    record.narrator == user || record.character == user
   end
 
   def create?
-    user.narrator?
+    record.narrator == user
   end
 
   def update?
-    user.narrator?
+    record.narrator == user
   end
 
   def destroy?
-    user.narrator?
+    record.narrator == user
   end
 end
