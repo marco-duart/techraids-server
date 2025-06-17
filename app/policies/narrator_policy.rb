@@ -9,4 +9,8 @@ class NarratorPolicy
   def performance_report?
     user.narrator? && user.managed_guild.present?
   end
+
+  def guild_members?
+    user.narrator? && user.managed_guild.present?
+  end
 end

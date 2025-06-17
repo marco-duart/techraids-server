@@ -12,6 +12,16 @@ class NarratorsController < ApplicationController
     end
   end
 
+  def guild_members
+    result = Narrator::GuildService.new(current_user).guild_members
+
+    if result[:success]
+      render json: result[:data], status: :ok
+    else
+      render json: { error: result[:message] }, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def performance_report_params

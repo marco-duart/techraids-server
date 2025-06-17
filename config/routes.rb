@@ -52,5 +52,6 @@ Rails.application.routes.draw do
 
   scope :narrators do
     get "performance_report", to: "narrators#performance_report"
+    get "guild_members", to: "narrators#guild_members"
   end
 end
