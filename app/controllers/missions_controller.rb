@@ -3,7 +3,7 @@ class MissionsController < ApplicationController
   before_action :set_mission, only: [ :show, :update, :destroy ]
 
   def index
-    @missions = policy_scope(Mission)
+    @missions = policy_scope(Mission).order(updated_at: :desc)
     render json: @missions
   end
 
