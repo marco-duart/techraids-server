@@ -1,8 +1,8 @@
 class TaskPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
-      if user.where(narrator: user)
-        scope.all
+      if user.narrator?
+        scope.where(narrator: user)
       else
         scope.where(character: user)
       end
