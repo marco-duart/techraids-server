@@ -26,12 +26,25 @@ Rails.application.routes.draw do
   resources :quests, only: [ :index, :show, :create, :update, :destroy ]
   resources :chapters, only: [ :index, :show, :create, :update, :destroy ]
   resources :villages, only: [ :index, :show, :create, :update, :destroy ]
-  resources :treasure_chests, only: [ :index, :show ]
   resources :specializations, only: [ :index, :show, :create, :update, :destroy ]
   resources :character_classes, only: [ :index, :show, :create, :update, :destroy ]
   resources :honorary_titles, only: [ :index, :show, :create, :update, :destroy ]
   resources :guild_notices, only: [ :index ]
   resources :arcane_announcements, only: [ :index ]
+
+  resources :rewards, only: [ :index, :show, :create ] do
+    member do
+      patch :restock
+      patch :remove_stock
+    end
+  end
+
+  resources :treasure_chests, only: [ :index, :show, :create ] do
+    member do
+      patch :activate
+      patch :deactivate
+    end
+  end
 
   # Rotas com regras de negócio para narrator
   # scope :narrator, controller: :narrator do
