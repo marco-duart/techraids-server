@@ -25,27 +25,297 @@ female_character_class_image_files = Dir.children(FEMALE_CHARACTER_CLASS_IMAGES_
 boss_image_files = Dir.children(BOSS_IMAGES_DIR)
 
 # Villages
-village_ti = Village.create!(name: 'TI', description: 'Departamento de Tecnologia da Informação', village_type: :arcane_scholars)
-village_rh = Village.create!(name: 'RH/DP', description: 'Recursos Humanos e Departamento Pessoal', village_type: :lorekeepers)
-village_mkt = Village.create!(name: 'Marketing', description: 'Departamento de Marketing', village_type: :runemasters)
+village_comercial = Village.create!(
+  name: 'Comercial',
+  description: 'Departamento Comercial',
+  village_type: :silver_tongues
+)
 
-# Narrators
+village_marketing = Village.create!(
+  name: 'Marketing',
+  description: 'Departamento de Marketing',
+  village_type: :runemasters
+)
+
+village_rh = Village.create!(
+  name: 'Gente e Gestão',
+  description: 'Recursos Humanos e Departamento Pessoal',
+  village_type: :lorekeepers
+)
+
+village_qualidade = Village.create!(
+  name: 'Sistema Gestão Power',
+  description: 'Departamentos de Qualidade, Faculdade e Relacionamento.',
+  village_type: :precision_crafters
+)
+
+village_ti = Village.create!(
+  name: 'TI',
+  description: 'Tecnologia da Informação',
+  village_type: :arcane_scholars
+)
+
+# Narrators, Guilds, Specializations e CharacterClass
 narrators = [
   {
-    name: 'Gestor de Dev', nickname: 'narrator-dev', email: 'dev@techraids.com', village: village_ti,
-    guild: { name: 'Desenvolvimento', description: 'Equipe de Desenvolvimento', specializations: [ 'Front-end', 'Back-end', 'Full-stack', 'QA', 'DevOps' ] }
+    name: 'Gestão Comercial',
+    nickname: 'narrator-comercial',
+    email: 'comercial.ibc@techraids.com.br',
+    village: village_comercial,
+    guild: {
+      name: 'Comercial',
+      description: 'Equipe Comercial',
+      specializations: [
+        {
+          title: 'Consultor Comercial',
+          description: 'Responsável por prospecção e fechamento de negócios',
+          character_classes: [
+            'Prospecção Ativa',
+            'Fechamento',
+            'Negociação',
+            'Gestão de Pipeline'
+          ]
+        }
+      ]
+    }
   },
   {
-    name: 'Gestor de Infra', nickname: 'narrator-infra', email: 'infra@techraids.com', village: village_ti,
-    guild: { name: 'Infra', description: 'Equipe de Infraestrutura', specializations: [ 'Redes', 'Telefonia', 'Hardware' ] }
+    name: 'Gestão Pre-Vendas',
+    nickname: 'narrator-pvd',
+    email: 'pvd.ibc@techraids.com.br',
+    village: village_comercial,
+    guild: {
+      name: 'Pre-Vendas',
+      description: 'Equipe de Pré-Vendas',
+      specializations: [
+        {
+          title: 'Agente de Pre-Vendas',
+          description: 'Responsável por qualificação de leads e prospecção',
+          character_classes: [
+            'Qualificação de Leads',
+            'Prospecção Outbound',
+            'Follow-up',
+            'Script de Vendas',
+            'Cold Calling',
+            'Geração de Interesse'
+          ]
+        }
+      ]
+    }
   },
   {
-    name: 'Gestor de GG', nickname: 'narrator-gg', email: 'genteegestao@techraids.com', village: village_rh,
-    guild: { name: 'Gente e Gestão', description: 'Equipe de RH e DP', specializations: [ 'Seleção', 'Folha de Ponto', 'Treinamento', 'Benefícios' ] }
+    name: 'Gestão Suporte de Negócios',
+    nickname: 'narrator-negocios',
+    email: 'suporte.ibc@techraids.com.br',
+    village: village_comercial,
+    guild: {
+      name: 'Suporte de Negócios',
+      description: 'Equipe de Suporte a Negócios',
+      specializations: [
+        {
+          title: 'Analista de Negócios',
+          description: 'Responsável por análise e otimização de processos',
+          character_classes: [
+            'Mapeamento de Processos',
+            'Levantamento de Requisitos',
+            'Otimização Operacional',
+            'Inteligência de Mercado',
+            'Análise de Dados',
+            'Definição de Metas',
+            'Relatórios Gerenciais',
+            'Análise SWOT',
+            'Estratégia de Crescimento'
+          ]
+        }
+      ]
+    }
   },
   {
-    name: 'Gestor de Marketing', nickname: 'narrator-mkt', email: 'marketing@techraids.com', village: village_mkt,
-    guild: { name: 'Digital', description: 'Marketing Digital', specializations: [ 'Mídias Sociais', 'SEO', 'Conteúdo', 'Design' ] }
+    name: 'Gestão Marketing',
+    nickname: 'narrator-mkt',
+    email: 'marketing.ibc@techraids.com.br',
+    village: village_marketing,
+    guild: {
+      name: 'Marketing',
+      description: 'Equipe de Marketing',
+      specializations: [
+        {
+          title: 'Copywriter',
+          description: 'Responsável por criação de conteúdo persuasivo',
+          character_classes: [
+            'Escrita Persuasiva',
+            'Storytelling',
+            'Escrita Emocional',
+            'Escrita para Anúncios'
+          ]
+        },
+        {
+          title: 'Design',
+          description: 'Responsável por criação visual',
+          character_classes: [
+            'Branding',
+            'UX/UI',
+            'Identidade Visual',
+            'Web Design',
+            'Materiais Institucionais',
+            'Edição de Imagens'
+          ]
+        },
+        {
+          title: 'Videomaker',
+          description: 'Responsável por produção de vídeos',
+          character_classes: [
+            'Edição de Vídeo',
+            'Roteirização',
+            'Captação de Imagem',
+            'Motion Graphics',
+            'Pós-Produção'
+          ]
+        },
+        {
+          title: 'Traffic Manager',
+          description: 'Responsável por gestão de tráfego',
+          character_classes: [
+            'Tráfego Pago',
+            'Tráfego Orgânico',
+            'Google Ads',
+            'Segmentação',
+            'Analytics',
+            'Mídia Programática',
+            'Remarketing'
+          ]
+        }
+      ]
+    }
+  },
+  {
+    name: 'Gestão RH/DP',
+    nickname: 'narrator-rh',
+    email: 'genteegestao.ibc@techraids.com.br',
+    village: village_rh,
+    guild: {
+      name: 'Gente e Gestão',
+      description: 'Equipe de RH e DP',
+      specializations: [
+        {
+          title: 'Analista de RH',
+          description: 'Responsável por gestão de pessoas',
+          character_classes: [
+            'Recrutamento e Seleção',
+            'Clima Organizacional',
+            'Treinamento e Desenvolvimento',
+            'Cultura Organizacional',
+            'Onboarding',
+            'Endomarketing'
+          ]
+        },
+        {
+          title: 'Analista de DP',
+          description: 'Responsável por departamento pessoal',
+          character_classes: [
+            'Folha de Pagamento',
+            'Benefícios',
+            'Cálculo de Férias',
+            'Encargos Sociais',
+            'Admissão e Demissão',
+            'Controle de Ponto',
+            'E-social'
+          ]
+        }
+      ]
+    }
+  },
+  {
+    name: 'Gestão SGP',
+    nickname: 'narrator-qualidade',
+    email: 'sgp.ibc@techraids.com.br',
+    village: village_qualidade,
+    guild: {
+      name: 'Sistema Gestão Power',
+      description: 'Equipe de Qualidade, Faculdade e Relacionamento',
+      specializations: [
+        {
+          title: 'Analista de Relacionamento',
+          description: 'Responsável por encantamento de clientes',
+          character_classes: [
+            'Encantamento',
+            'Atendimento Humanizado',
+            'Resolução de Conflitos',
+            'Feedback do Cliente',
+            'Pós-Venda',
+            'Suporte Personalizado'
+          ]
+        },
+        {
+          title: 'Secretário Acadêmico',
+          description: 'Responsável por processos acadêmicos',
+          character_classes: [
+            'Gestão de Matrículas',
+            'Organização de Turmas',
+            'Emissão de Documentos',
+            'Atendimento ao Aluno',
+            'Processos Acadêmicos',
+            'Calendário Acadêmico',
+            'Suporte Administrativo'
+          ]
+        },
+        {
+          title: 'Analista de SAC',
+          description: 'Responsável por atendimento ao cliente',
+          character_classes: [
+            'Retenção de Clientes',
+            'Atendimento Multicanal',
+            'Resolução de Problemas',
+            'Satisfação do Cliente',
+            'Reclamações',
+            'Comunicação Empática'
+          ]
+        },
+        {
+          title: 'Analista de Qualidade',
+          description: 'Responsável por indicadores de qualidade',
+          character_classes: [
+            'Indicadores de Qualidade',
+            'Padronização de Processos',
+            'Avaliação de Performance',
+            'Auditoria Interna',
+            'Acompanhamento de KPIs'
+          ]
+        }
+      ]
+    }
+  },
+  {
+    name: 'Gestão TI',
+    nickname: 'narrator-ti',
+    email: 'ti.ibc@techraids.com.br',
+    village: village_ti,
+    guild: {
+      name: 'Tecnologia da Informação',
+      description: 'Equipe de TI',
+      specializations: [
+        {
+          title: 'Desenvolvedor',
+          description: 'Responsável por desenvolvimento de software',
+          character_classes: [
+            'Front-End',
+            'Back-End',
+            'Full-Stack',
+            'QA',
+            'DevOps'
+          ]
+        },
+        {
+          title: 'Analista de Infraestrutura',
+          description: 'Responsável por infraestrutura de TI',
+          character_classes: [
+            'Telefonia',
+            'Hardware',
+            'Governança'
+          ]
+        }
+      ]
+    }
   }
 ]
 
@@ -70,42 +340,49 @@ narrators.each do |narrator_data|
     narrator: narrator
   )
 
-  guild_data[:specializations].each do |spec|
+  guild_data[:specializations].each do |spec_data|
     specialization = Specialization.create!(
-      title: spec,
-      description: "Especialização em #{spec}",
+      title: spec_data[:title],
+      description: spec_data[:description],
       guild: guild
     )
 
-    [
-      { times: 3, experience: 0, fee: 0 },
-      { times: 2, experience: -> { rand(100..1000) }, fee: -> { rand(10..50) } }
-    ].each do |config|
-      config[:times].times do
-        male_character_class = CharacterClass.create!(
-          name: Faker::Job.title,
-          slogan: Faker::Lorem.sentence,
-          required_experience: config[:experience].respond_to?(:call) ? config[:experience].call : config[:experience],
-          entry_fee: config[:fee].respond_to?(:call) ? config[:fee].call : config[:fee],
-          specialization: specialization,
-        )
-        attach_random_image(male_character_class, MALE_CHARACTER_CLASS_IMAGES_DIR, male_character_class_image_files)
+    used_male_images = []
+    used_female_images = []
 
-        female_character_class = CharacterClass.create!(
-          name: male_character_class.name,
-          slogan: male_character_class.slogan,
-          required_experience: male_character_class.required_experience,
-          entry_fee: male_character_class.entry_fee,
-          specialization: specialization,
-        )
-        attach_random_image(female_character_class, FEMALE_CHARACTER_CLASS_IMAGES_DIR, female_character_class_image_files)
-      end
+    spec_data[:character_classes].each do |class_name|
+      available_male_images = male_character_class_image_files - used_male_images
+      available_female_images = female_character_class_image_files - used_female_images
+
+      male_image = available_male_images.sample
+      female_image = available_female_images.sample
+
+      used_male_images << male_image
+      used_female_images << female_image
+
+      male_character_class = CharacterClass.create!(
+        name: class_name,
+        slogan: Faker::Lorem.sentence,
+        required_experience: 0,
+        entry_fee: 0,
+        specialization: specialization,
+      )
+      attach_random_image(male_character_class, MALE_CHARACTER_CLASS_IMAGES_DIR, [ male_image ])
+
+      female_character_class = CharacterClass.create!(
+        name: class_name,
+        slogan: male_character_class.slogan,
+        required_experience: 0,
+        entry_fee: 0,
+        specialization: specialization,
+      )
+      attach_random_image(female_character_class, FEMALE_CHARACTER_CLASS_IMAGES_DIR, [ female_image ])
     end
   end
 
   quest = Quest.create!(
-    title: "Jornada do #{guild.name}",
-    description: "Domine as habilidades de #{guild.name}",
+    title: "Jornada - #{guild.name}",
+    description: "Domine a área e melhore suas habilidades!",
     guild: guild
   )
 
@@ -141,165 +418,4 @@ narrators.each do |narrator_data|
   end
 end
 
-Guild.all.each do |guild|
-  10.times do
-    experience = rand(0..10000)
-    spec = guild.specializations.sample
-    quest = guild.quest
-    chapter_index = [ (experience / 150).to_i - 1, 0 ].max
-    chapter_index = [ chapter_index, quest.chapters.count - 1 ].min
-    current_chapter = quest.chapters.offset(chapter_index).first || quest.chapters.first
-
-    nickname = loop do
-      name = Faker::Internet.unique.username
-      break name unless User.exists?(nickname: name)
-    end
-
-    email = loop do
-      addr = Faker::Internet.unique.email
-      break addr unless User.exists?(email: addr)
-    end
-
-    character = User.create!(
-      name: Faker::Name.name,
-      nickname: nickname,
-      email: email,
-      password: 'password',
-      role: :character,
-      village: guild.village,
-      guild: guild,
-      current_chapter: current_chapter,
-      character_class: spec.character_classes.sample,
-      specialization: spec,
-      experience: experience,
-      gold: rand(0..500),
-      confirmed_at: Time.now
-    )
-
-    attach_random_image(character, USER_IMAGES_DIR, user_image_files, :photo)
-  end
-end
-
-# HonoraryTitles
-titles = [ 'Mestre do React', 'Guru do Docker', 'Rei do Rails', 'Lorde do VD', 'Defensor dos Periféricos',
-  'Recrutador Supremo', 'Mestre dos Benefícios', 'Encantador de Candidatos',
-  'Rei das Redes Sociais', 'Mago do SEO', 'Lorde do Conteúdo' ]
-
-titles.each do |title|
-  character = User.where(role: :character).sample
-  next unless character && character.guild&.narrator
-  HonoraryTitle.create!(
-    title: title,
-    slogan: Faker::Lorem.sentence,
-    character: character,
-    narrator: character.guild.narrator
-  )
-end
-
-# TreasureChests
-Guild.all.each do |guild|
-  2.times do
-    chest = TreasureChest.create!(
-      title: Faker::Games::Zelda.item,
-      value: rand(100..500),
-      active: true,
-      guild: guild
-    )
-
-    3.times do
-      Reward.create!(
-        name: Faker::Commerce.product_name,
-        description: Faker::Lorem.paragraph,
-        reward_type: rand(0..3),
-        is_limited: [ true, false ].sample,
-        stock_quantity: rand(5..25),
-        treasure_chest: chest
-      )
-    end
-  end
-end
-
-# CharacterTreasureChests
-User.where(role: :character).each do |character|
-  chest = TreasureChest.where(guild: character.guild).sample
-  next unless chest && chest.rewards.any?
-
-  CharacterTreasureChest.create!(
-    character: character,
-    treasure_chest: chest,
-    reward: chest.rewards.sample
-  )
-end
-
-# ArcaneAnnouncements
-if (rh_narrator = User.find_by(email: 'genteegestao@techraids.com'))
-  [
-    { title: 'Mudanças no processo de férias', priority: :high },
-    { title: 'Novos benefícios disponíveis', priority: :normal },
-    { title: 'URGENTE: Atualização de documentos', priority: :critical }
-  ].each do |a|
-    ArcaneAnnouncement.create!(
-      title: a[:title],
-      content: Faker::Lorem.paragraph(sentence_count: 4),
-      announcement_type: :lore_whisper,
-      priority: a[:priority],
-      active: true,
-      village: rh_narrator.village,
-      author: rh_narrator
-    )
-  end
-end
-
-# GuildNotices
-User.where(role: :narrator).each do |narrator|
-  guild = narrator.managed_guild
-  next unless guild
-
-  [
-    { title: 'Atualização de processos', priority: :normal },
-    { title: 'Reunião importante', priority: :high },
-    { title: 'URGENTE: Problema crítico', priority: :critical },
-    { title: 'Informação geral', priority: :low }
-  ].each do |n|
-    GuildNotice.create!(
-      title: n[:title],
-      content: Faker::Lorem.paragraph(sentence_count: 3),
-      priority: n[:priority],
-      active: true,
-      guild: guild,
-      author: narrator
-    )
-  end
-end
-
-# Missions e Tasks
-User.where(role: :character).each do |character|
-  5.times do
-    status = rand(0..2)
-    completed_at = (status == 1 ? Time.now : nil)
-
-    Mission.create!(
-      title: Faker::Lorem.sentence,
-      description: Faker::Lorem.paragraph,
-      status: status,
-      gold_reward: rand(50..200),
-      completed_at: completed_at,
-      character: character,
-      narrator: character.guild.narrator
-    )
-
-    2.times do
-      Task.create!(
-        title: Faker::Lorem.sentence,
-        description: Faker::Lorem.paragraph,
-        status: status,
-        experience_reward: rand(10..100),
-        completed_at: completed_at,
-        character: character,
-        narrator: character.guild.narrator
-      )
-    end
-  end
-end
-
-puts 'Seeds criados com sucesso!'
+puts 'Seed de população inicial criado com sucesso!'
