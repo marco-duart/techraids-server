@@ -3,8 +3,12 @@ class RewardsController < ApplicationController
   before_action :set_reward, only: [ :show, :restock, :remove_stock ]
 
   def index
-    @rewards = policy_scope(Reward)
-    render json: @rewards
+    if params[:treasure_chest_id].present?
+      @rewards = policy_scope(Reward).where(treasure_chest_id: params[:treasure_chest_id])
+      render json: @rewards
+    else
+      render json: { error: "Parâmetro treasure_chest_id é obrigatório" }, status: :unprocessable_entity
+    end
   end
 
   def show
