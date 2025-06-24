@@ -97,6 +97,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_28_184900) do
   end
 
   create_table "character_treasure_chests", force: :cascade do |t|
+    t.boolean "reward_claimed", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "character_id"
