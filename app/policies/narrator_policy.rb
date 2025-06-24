@@ -13,4 +13,8 @@ class NarratorPolicy
   def guild_members?
     user.narrator? && user.managed_guild.present?
   end
+
+  def pending_rewards?
+    user.narrator? && user.managed_guild.present?
+  end
 end
