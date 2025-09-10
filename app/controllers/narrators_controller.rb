@@ -22,10 +22,34 @@ class NarratorsController < ApplicationController
     end
   end
 
+  def pending_rewards
+    result = Narrator::GuildService.new(current_user).pending_rewards
+
+    if result[:success]
+      render json: result[:data], status: :ok
+    else
+      render json: { error: result[:message] }, status: :unprocessable_entity
+    end
+  end
+
+  def deliver_reward
+    result = Narrator::GuildService.new(current_user).deliver_reward(deliver_reward_params)
+
+    if result[:success]
+      render json: result[:data], status: :ok
+    else
+      render json: { error: result[:message] }, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def performance_report_params
     params.permit(:start_date, :end_date)
+  end
+
+  def deliver_reward_params
+    params.permit(:character_treasure_chest_id, :boss_id)
   end
 
   def authorize_narrator
