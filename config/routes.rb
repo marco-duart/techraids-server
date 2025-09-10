@@ -66,5 +66,7 @@ Rails.application.routes.draw do
   scope :narrators do
     get "performance_report", to: "narrators#performance_report"
     get "guild_members", to: "narrators#guild_members"
+    get "pending_rewards", to: "narrators#pending_rewards"
+    patch "deliver_reward", to: "narrators#deliver_reward"
   end
 end
