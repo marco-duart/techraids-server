@@ -1,8 +1,8 @@
 class GuildNoticePolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
-      if user.narrator? && user.guild_id.present?
-        scope.where(guild_id: user.guild_id)
+      if user.narrator? && user.managed_guild.present?
+        scope.where(guild_id: user.managed_guild.id)
       elsif user.character?
         scope.where(guild_id: user.guild_id).active
       else
@@ -12,7 +12,7 @@ class GuildNoticePolicy < ApplicationPolicy
   end
 
   def create?
-    user.narrator? && user.guild_id.present?
+    user.narrator? && user.managed_guild.present?
   end
 
   def update?
