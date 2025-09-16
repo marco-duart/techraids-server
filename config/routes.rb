@@ -29,8 +29,8 @@ Rails.application.routes.draw do
   resources :specializations, only: [ :index, :show, :create, :update, :destroy ]
   resources :character_classes, only: [ :index, :show, :create, :update, :destroy ]
   resources :honorary_titles, only: [ :index, :show, :create, :update, :destroy ]
-  resources :guild_notices, only: [ :index ]
-  resources :arcane_announcements, only: [ :index ]
+  resources :guild_notices, only: [ :index, :create, :update, :destroy ]
+  resources :arcane_announcements, only: [ :index, :create, :update, :destroy ]
 
   resources :rewards, only: [ :index, :show, :create ] do
     member do
