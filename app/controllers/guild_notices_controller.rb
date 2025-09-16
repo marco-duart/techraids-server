@@ -2,7 +2,7 @@ class GuildNoticesController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @notices = policy_scope(GuildNotice)
+    @notices = policy_scope(GuildNotice).order(created_at: :desc)
     render json: @notices
   end
 
@@ -38,6 +38,6 @@ class GuildNoticesController < ApplicationController
   private
 
   def notice_params
-    params.require(:guild_notice).permit(:title, :content, :priority, :active).merge(author: current_user, guild_id: current_user.guild_id)
+    params.require(:guild_notice).permit(:title, :content, :priority, :active).merge(author: current_user, guild_id: current_user.managed_guild.id)
   end
 end
