@@ -1,23 +1,16 @@
 class ArcaneAnnouncementPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
-      scope.all
+      if user.narrator?
+        scope.where(author: user)
+      elsif user.character?
+        scope.all
+      end
     end
   end
 
   def create?
-    return false unless user.present? && user.village.present?
-
-    case user.role.to_sym
-    when :narrator
-      user.village.arcane_scholars? ||
-      user.village.runemasters? ||
-      user.village.lorekeepers?
-    when :character
-      user.village.lorekeepers?
-    else
-      false
-    end
+    user&.narrator? && user.village&.magical_support?
   end
 
   def show?
