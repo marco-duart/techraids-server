@@ -18,15 +18,13 @@ class ArcaneAnnouncementsController < ApplicationController
   end
 
   def create
-    @announcement = ArcaneAnnouncement.new(announcement_params)
-    @announcement.author = current_user
-    @announcement.village = current_user.village
+    @announcement = ArcaneAnnouncement.new(announcement_params.merge(
+      author: current_user,
+      village: current_user.village,
+      announcement_type: ArcaneAnnouncement.announcement_type_for_village(current_user.village.village_type)
+    ))
 
-    unless @announcement.announcement_type.present?
-      render json: { error: "Sua vila não tem permissão para criar anúncios" },
-             status: :forbidden
-      return
-    end
+    authorize @announcement
 
     if @announcement.save
       render json: @announcement, status: :created
