@@ -11,4 +11,8 @@ class Village < ApplicationRecord
     precision_crafters: 5,  # Qualidade
     coinwardens: 6          # Financeiro
   }
+
+  def magical_support?
+    arcane_scholars? || runemasters? || lorekeepers?
+  end
 end
