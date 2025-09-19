@@ -14,18 +14,10 @@ class ArcaneAnnouncement < ApplicationRecord
   scope :active, -> { where(active: true).order(created_at: :desc) }
 
   def self.announcement_type_for_village(village_type)
-    case village_type.to_sym
-    when :arcane_scholars then :arcane_decree
-    when :runemasters then :runic_proclamation
-    when :lorekeepers then :lore_whisper
-    else
-      nil
-    end
-  end
-
-  private
-
-  def set_announcement_type_from_village
-    self.announcement_type = ArcaneAnnouncement.announcement_type_for_village(village.village_type)
+    {
+      arcane_scholars: :arcane_decree,
+      runemasters: :runic_proclamation,
+      lorekeepers: :lore_whisper
+    }[village_type.to_sym]
   end
 end
