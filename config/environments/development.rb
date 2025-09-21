@@ -39,7 +39,7 @@ Rails.application.configure do
 
   # Set localhost to be used by links generated in mailer templates.
   # Rails.application.routes.default_url_options[:host] = "localhost:3000"
-  Rails.application.routes.default_url_options[:host] = "34.69.43.47"
+  Rails.application.routes.default_url_options[:host] = "10.77.77.69:3005"
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
