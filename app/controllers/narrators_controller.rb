@@ -1,6 +1,5 @@
 class NarratorsController < ApplicationController
   before_action :authenticate_user!
-  before_action :authorize_narrator
 
   def performance_report
     result = Narrator::PerformanceService.new(current_user, performance_report_params).performance_report
@@ -50,9 +49,5 @@ class NarratorsController < ApplicationController
 
   def deliver_reward_params
     params.permit(:character_treasure_chest_id, :boss_id)
-  end
-
-  def authorize_narrator
-    head :forbidden unless current_user.narrator?
   end
 end

@@ -47,8 +47,4 @@ class SpecializationsController < ApplicationController
   def specialization_params
     params.require(:specialization).permit(:title, :description)
   end
-
-  def authorize_narrator
-    head :forbidden unless current_user.narrator?
-  end
 end

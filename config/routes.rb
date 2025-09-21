@@ -31,6 +31,7 @@ Rails.application.routes.draw do
   resources :honorary_titles, only: [ :index, :show, :create, :update, :destroy ]
   resources :guild_notices, only: [ :index, :create, :update, :destroy ]
   resources :arcane_announcements, only: [ :index, :create, :update, :destroy ]
+  resources :bosses, only: [ :index, :create, :update, :destroy ]
 
   resources :rewards, only: [ :index, :show, :create ] do
     member do

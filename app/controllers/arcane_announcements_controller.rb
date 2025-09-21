@@ -12,9 +12,7 @@ class ArcaneAnnouncementsController < ApplicationController
                   .joins(:author)
                   .order(created_at: :desc)
 
-  render json: @announcements.as_json(
-    methods: [ :author_name, :author_nickname ]
-  )
+  render json: @announcements
   end
 
   def create
