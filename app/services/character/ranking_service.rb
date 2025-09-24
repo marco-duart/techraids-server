@@ -17,7 +17,8 @@ module Character
           tasks_completed: ranking_by_tasks_completed(characters),
           gold_earned: ranking_by_gold_earned(characters),
           experience: ranking_by_experience(characters),
-          bosses_killed: ranking_by_bosses_killed(characters)
+          bosses_killed: ranking_by_bosses_killed(characters),
+          titles_earned: ranking_by_titles_earned(characters)
         }
       }
     end
@@ -63,6 +64,14 @@ module Character
                 .order("COUNT(bosses.id) DESC")
                 .limit(10)
                 .pluck("users.nickname, COUNT(bosses.id) as bosses_killed")
+    end
+
+    def ranking_by_titles_earned(characters)
+      characters.left_joins(:acquired_titles)
+                .group("users.id")
+                .order("COUNT(honorary_titles.id) DESC")
+                .limit(10)
+                .pluck("users.nickname, COUNT(honorary_titles.id) as titles_count")
     end
   end
 end
