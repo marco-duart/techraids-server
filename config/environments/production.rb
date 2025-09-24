@@ -6,8 +6,8 @@ Rails.application.configure do
   config.consider_all_requests_local = false
   config.public_file_server.headers = { "cache-control" => "public, max-age=#{1.year.to_i}" }
   config.active_storage.service = :local
-  config.assume_ssl = true
-  config.force_ssl = true
+  config.assume_ssl = false
+  config.force_ssl = false
   config.log_tags = [ :request_id ]
   config.logger   = ActiveSupport::TaggedLogging.logger(STDOUT)
   config.log_level = ENV.fetch("RAILS_LOG_LEVEL", "info")
@@ -16,12 +16,15 @@ Rails.application.configure do
   config.cache_store = :solid_cache_store
   config.active_job.queue_adapter = :solid_queue
   config.solid_queue.connects_to = { database: { writing: :queue } }
-  config.action_mailer.default_url_options = { host: "10.77.72.201" }
+  config.action_mailer.default_url_options = { host: "10.77.72.201", protocol: "http" }
   config.i18n.fallbacks = true
   config.active_record.dump_schema_after_migration = false
   config.active_record.attributes_for_inspect = [ :id ]
+  config.active_storage.resolve_model_to_route = :rails_storage_proxy
+  config.active_storage.service_urls_expire_in = 1.hour
   Rails.application.routes.default_url_options = {
     host: "10.77.72.201",
-    port: 3005
+    port: 3005,
+    protocol: "http"
   }
 end
