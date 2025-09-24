@@ -155,6 +155,12 @@ CHARACTER_CLASS_SLOGANS = {
   'Auditoria Interna' => 'Fiscalizando a excelência com olhar crítico!',
   'Acompanhamento de KPIs' => 'Monitorando os sinais vitais do sucesso!',
 
+  # Analista do CAC
+  'Suporte ao Coach Formado' => 'Apoiando mestres na arte de transformar vidas!',
+  'Gestão de Ferramentas' => 'Fornecendo as armas para batalhas profissionais!',
+  'Acompanhamento Acadêmico' => 'Guardião da jornada após a formatura!',
+  'Atualização de Conteúdos' => 'Mantendo o conhecimento sempre afiado!',
+
   # Desenvolvedor
   'Front-End' => 'Dando forma e vida às interfaces!',
   'Back-End' => 'O poder invisível que move tudo!',
@@ -558,7 +564,17 @@ narrators = [
             'Auditoria Interna',
             'Acompanhamento de KPIs'
           ]
-        }
+        },
+        {
+        title: 'Analista do CAC',
+        description: 'Responsável por apoio acadêmico e administrativo para alunos de Coaching',
+        character_classes: [
+          'Suporte ao Coach Formado',
+          'Gestão de Ferramentas',
+          'Acompanhamento Acadêmico',
+          'Atualização de Conteúdos'
+        ]
+      }
       ]
     }
   },
