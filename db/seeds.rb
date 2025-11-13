@@ -645,29 +645,33 @@ narrators.each do |narrator_data|
       available_male_images = male_character_class_image_files - used_male_images
       available_female_images = female_character_class_image_files - used_female_images
 
-      male_image = available_male_images.sample
-      female_image = available_female_images.sample
+      selected_male_images = available_male_images.sample(3)
+      selected_female_images = available_female_images.sample(3)
 
-      used_male_images << male_image
-      used_female_images << female_image
+      used_male_images.concat(selected_male_images)
+      used_female_images.concat(selected_female_images)
 
-      male_character_class = CharacterClass.create!(
-        name: class_name,
-        slogan: CHARACTER_CLASS_SLOGANS[class_name],
-        required_experience: 0,
-        entry_fee: 0,
-        specialization: specialization,
-      )
-      attach_random_image(male_character_class, MALE_CHARACTER_CLASS_IMAGES_DIR, [ male_image ])
+      selected_male_images.each do |male_image|
+        male_character_class = CharacterClass.create!(
+          name: class_name,
+          slogan: CHARACTER_CLASS_SLOGANS[class_name],
+          required_experience: 0,
+          entry_fee: 0,
+          specialization: specialization,
+        )
+        attach_random_image(male_character_class, MALE_CHARACTER_CLASS_IMAGES_DIR, [ male_image ])
+      end
 
-      female_character_class = CharacterClass.create!(
-        name: class_name,
-        slogan: CHARACTER_CLASS_SLOGANS[class_name],
-        required_experience: 0,
-        entry_fee: 0,
-        specialization: specialization,
-      )
-      attach_random_image(female_character_class, FEMALE_CHARACTER_CLASS_IMAGES_DIR, [ female_image ])
+      selected_female_images.each do |female_image|
+        female_character_class = CharacterClass.create!(
+          name: class_name,
+          slogan: CHARACTER_CLASS_SLOGANS[class_name],
+          required_experience: 0,
+          entry_fee: 0,
+          specialization: specialization,
+        )
+        attach_random_image(female_character_class, FEMALE_CHARACTER_CLASS_IMAGES_DIR, [ female_image ])
+      end
     end
   end
 
