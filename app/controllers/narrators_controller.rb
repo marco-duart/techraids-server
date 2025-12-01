@@ -1,6 +1,16 @@
 class NarratorsController < ApplicationController
   before_action :authenticate_user!
 
+  def narrator_quest
+    result = Narrator::QuestService.new(current_user).fetch_quest_and_companions
+
+    if result[:success]
+      render json: result[:data], status: :ok
+    else
+      render json: { error: result[:error] }, status: :not_found
+    end
+  end
+
   def performance_report
     result = Narrator::PerformanceService.new(current_user, performance_report_params).performance_report
 
