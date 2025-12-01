@@ -68,6 +68,7 @@ Rails.application.routes.draw do
     get "performance_report", to: "narrators#performance_report"
     get "guild_members", to: "narrators#guild_members"
     get "pending_rewards", to: "narrators#pending_rewards"
+    get "narrator_quest", to: "narrators#narrator_quest"
     patch "deliver_reward", to: "narrators#deliver_reward"
   end
 end
