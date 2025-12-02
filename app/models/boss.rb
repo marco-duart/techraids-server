@@ -16,7 +16,7 @@ class Boss < ApplicationRecord
     base_experience = chapter.required_experience * 1.2
 
     additional_members = [ team_size - 1, 0 ].max
-    additional_experience = chapter.required_experience * 0.95 * additional_members
+    additional_experience = chapter.required_experience * 0.80 * additional_members
 
     (base_experience + additional_experience).round
   end
