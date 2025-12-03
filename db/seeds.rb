@@ -683,15 +683,17 @@ narrators.each do |narrator_data|
 
   boss_chapter_indices = [ 6, 15, 21, 28, 36, 43, 48, 52, 53, 56, 64, 74, 78, 79 ]
 
+  required_experience = 0
+
   points.each_with_index do |point, i|
     chapter_number = i + 1
-    base_experience = chapter_number * 150
     is_boss_chapter = boss_chapter_indices.include?(chapter_number)
+    required_experience = is_boss_chapter ? required_experience + 200 : required_experience + 150
 
     chapter = Chapter.create!(
       title: "Capítulo #{chapter_number}",
       description: CHAPTERS_DESCRIPTION[i],
-      required_experience: is_boss_chapter ? base_experience + 200 : base_experience,
+      required_experience: required_experience,
       quest: quest,
       position_x: point["x"],
       position_y: point["y"],
