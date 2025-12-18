@@ -3,7 +3,7 @@ class TasksController < ApplicationController
   before_action :set_task, only: [ :show, :update, :destroy ]
 
   def index
-    @tasks = policy_scope(Task).order(updated_at: :desc)
+    @tasks = policy_scope(Task).order(status: :asc, updated_at: :desc)
     render json: @tasks
   end
 
