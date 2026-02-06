@@ -32,6 +32,8 @@ gem "enumerize"
 
 gem "rack-cors"
 
+gem "pagy", "~> 9.0"
+
 gem "dotenv-rails"
 
 group :development, :test do

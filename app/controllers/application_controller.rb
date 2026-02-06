@@ -2,6 +2,7 @@ class ApplicationController < ActionController::API
   include Pundit::Authorization
   include Devise::Controllers::Helpers
   include DeviseTokenAuth::Concerns::SetUserByToken
+  include Pagy::Backend
 
   before_action :disable_session
 
