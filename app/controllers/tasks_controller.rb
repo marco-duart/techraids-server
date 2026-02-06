@@ -59,7 +59,7 @@ class TasksController < ApplicationController
 
   def apply_filters(relation)
     relation = relation.filter_by_status(params[:status]) if params[:status].present?
-    
+
     if params[:experience_reward_min].present? || params[:experience_reward_max].present?
       relation = relation.filter_by_experience_reward(
         params[:experience_reward_min],
@@ -85,9 +85,7 @@ class TasksController < ApplicationController
     {
       count: pagy_obj.count,
       page: pagy_obj.page,
-      items: pagy_obj.items,
       pages: pagy_obj.pages,
-      last: pagy_obj.last,
       from: pagy_obj.from,
       to: pagy_obj.to
     }
