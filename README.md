@@ -1,11 +1,18 @@
-# Techraids Server
+# Techraids Server ⚔️
+
+![Rails](https://img.shields.io/badge/Rails-8-red)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-blue)
+![API](https://img.shields.io/badge/Mode-API%20Only-1f6feb)
+![Swagger](https://img.shields.io/badge/Docs-Swagger-85ea2d)
+
+> 🎮 API de gamificacao com narrativa RPG para equipes: progressao, quests, bosses e recompensas.
 
 API Rails para gamificacao em formato RPG, com dois perfis principais:
 
 - character: colaborador que evolui, cumpre tarefas/missoes e compra recompensas.
 - narrator: lider/gestor que coordena guilda, valida progresso e entrega recompensas.
 
-## Visao Geral
+## 🌍 Visao Geral
 
 O sistema organiza pessoas em uma estrutura de mundo RPG:
 
@@ -16,7 +23,7 @@ O sistema organiza pessoas em uma estrutura de mundo RPG:
 - TreasureChest e Reward: loja de premios.
 - HonoraryTitle: titulos concedidos aos characters.
 
-## Stack Tecnica
+## 🧱 Stack Tecnica
 
 - Ruby on Rails 8
 - PostgreSQL
@@ -27,7 +34,7 @@ O sistema organiza pessoas em uma estrutura de mundo RPG:
 - rswag-api + rswag-ui (OpenAPI/Swagger)
 - Solid Queue / Solid Cache / Solid Cable
 
-## Arquitetura da Aplicacao
+## 🏗️ Arquitetura da Aplicacao
 
 - Controllers: camada HTTP, autenticacao, autorizacao e serializacao de resposta.
 - Policies (Pundit): regras de acesso por role e escopo de dados.
@@ -35,21 +42,21 @@ O sistema organiza pessoas em uma estrutura de mundo RPG:
 - Models: relacoes, validacoes, enums, scopes e callbacks.
 - Migrations: schema e integridade relacional (FKs e indice unico de chapter por quest).
 
-## Dominio e Entidades
+## 🧭 Dominio e Entidades
 
-### Usuarios e papeis
+### 👥 Usuarios e papeis
 
 - User possui role enum: character ou narrator.
 - User pode pertencer a village, guild, specialization, character_class, current_chapter e active_title.
 - Narrator pode gerenciar uma guild (managed_guild).
 
-### Estrutura de progresso
+### 🗺️ Estrutura de progresso
 
 - Quest pertence a guild.
 - Chapter pertence a quest e tem ordenacao por position.
 - Boss pertence a chapter e pode ser finalizado por um character.
 
-### Trabalho e recompensas
+### 🪙 Trabalho e recompensas
 
 - Task: foco em experiencia (XP).
 - Mission: foco em ouro.
@@ -57,12 +64,12 @@ O sistema organiza pessoas em uma estrutura de mundo RPG:
 - Reward: pode ser limitado por estoque.
 - CharacterTreasureChest: historico de compras/sorteios por character.
 
-### Comunicacao
+### 📣 Comunicacao
 
 - GuildNotice: avisos internos por guild.
 - ArcaneAnnouncement: comunicados por village.
 
-## Relacoes Principais
+## 🔗 Relacoes Principais
 
 - Village has_many guilds e users.
 - Guild belongs_to village e narrator; has_many characters, specializations e treasure_chests; has_one quest.
@@ -71,7 +78,7 @@ O sistema organiza pessoas em uma estrutura de mundo RPG:
 - User has_many tasks/missions como character e como narrator (com foreign keys distintas).
 - User has_many acquired_titles e pode ter active_title.
 
-## Regras de Negocio Relevantes
+## 🧠 Regras de Negocio Relevantes
 
 - Nivel do personagem: calculado em User#current_level com base em experiencia.
 - Ao criar character, sistema tenta definir chapter inicial da quest da guilda.
@@ -87,9 +94,9 @@ O sistema organiza pessoas em uma estrutura de mundo RPG:
 	- character ser o finishing hero.
 - Compra de bau exige ouro suficiente e permissao; sorteia reward disponivel e decrementa estoque quando limitado.
 
-## Services de Dominio
+## ⚙️ Services de Dominio
 
-### Character
+### 🛡️ Character
 
 - StatusProgressionService
 	- selecionar especializacao
@@ -106,7 +113,7 @@ O sistema organiza pessoas em uma estrutura de mundo RPG:
 - StoreService
 	- loja, compra de bau e historico de compras
 
-### Narrator
+### 🧙 Narrator
 
 - GuildService
 	- membros da guild
@@ -117,14 +124,14 @@ O sistema organiza pessoas em uma estrutura de mundo RPG:
 - PerformanceService
 	- relatorio de desempenho por periodo
 
-## Endpoints (Resumo)
+## 🛰️ Endpoints (Resumo)
 
-### Autenticacao
+### 🔐 Autenticacao
 
 - Prefixo /auth (devise_token_auth)
 - login, logout, cadastro, update de conta e validacao de token
 
-### Recursos REST
+### 📦 Recursos REST
 
 - users
 - tasks
@@ -142,7 +149,7 @@ O sistema organiza pessoas em uma estrutura de mundo RPG:
 - rewards
 - treasure_chests
 
-### Rotas de negocio adicionais
+### ✨ Rotas de negocio adicionais
 
 - /characters/select_specialization
 - /characters/switch_class
@@ -160,7 +167,7 @@ O sistema organiza pessoas em uma estrutura de mundo RPG:
 - /narrators/narrator_quest
 - /narrators/deliver_reward
 
-## Estrutura de Dados (Migrations)
+## 🗃️ Estrutura de Dados (Migrations)
 
 Pontos importantes mapeados nas migrations:
 
@@ -171,7 +178,7 @@ Pontos importantes mapeados nas migrations:
 - rewards com reward_type, is_limited e stock_quantity.
 - character_treasure_chests com reward_claimed para controle de entrega.
 
-## Autenticacao na Pratica
+## 🔑 Autenticacao na Pratica
 
 Esta API usa autenticacao token-based com devise_token_auth.
 
@@ -180,7 +187,9 @@ Fluxo tipico:
 1. fazer login em /auth/sign_in.
 2. enviar headers de autenticacao nas proximas requests (access-token, client, uid).
 
-## Swagger / OpenAPI
+## 📚 Swagger / OpenAPI
+
+> 💡 Dica: use a UI para testar fluxos completos com token (login -> headers -> endpoints protegidos).
 
 Documentacao disponivel em:
 
@@ -190,45 +199,53 @@ Arquivo OpenAPI:
 
 - openapi/v1/openapi.yaml
 
-## Setup Local
+## 🚀 Setup Local
 
-### Pre-requisitos
+### ✅ Pre-requisitos
 
 - Ruby compativel com o projeto
 - Bundler
 - PostgreSQL
 
-### Instalacao
+### 📥 Instalacao
 
 ```bash
 bundle install
 ```
 
-### Banco de dados
+### 🛢️ Banco de dados
 
 ```bash
 bin/rails db:prepare
 ```
 
-### Seeds
+### 🌱 Seeds
 
 ```bash
 bin/rails db:seed
 ```
 
-### Subir aplicacao
+### ▶️ Subir aplicacao
 
 ```bash
 bin/rails server
 ```
 
-### Rodar testes
+### 🧪 Rodar testes
 
 ```bash
 bin/rails test
 ```
 
-## Observacoes
+## 📝 Observacoes
+
+---
+
+### 🎯 Leitura Rapida
+
+- Se voce e character: foque em tasks, ranking, quest, progress_chapter e store_items.
+- Se voce e narrator: foque em performance_report, pending_rewards e deliver_reward.
+- Para explorar tudo via UI: acesse /api-docs.
 
 - A API esta em modo api_only, com middlewares de cookies/sessao habilitados manualmente no config/application.rb.
 - Uploads (foto/avatar/imagens) dependem de Active Storage configurado no ambiente.
