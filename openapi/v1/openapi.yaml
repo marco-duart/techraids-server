@@ -1,0 +1,1611 @@
+openapi: 3.0.3
+info:
+  title: Techraids Server API
+  version: v1
+  description: Documentacao completa da API do Techraids.
+servers:
+  - url: 
+    description: Desenvolvimento local
+security:
+  - bearerAuth: []
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+paths:
+  /auth/sign_in:
+    get:
+      tags:
+        - Auth
+      summary: Formulario de login
+      security: []
+      responses:
+        "200":
+          description: Formulario retornado
+    post:
+      tags:
+        - Auth
+      summary: Login
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "200":
+          description: Login realizado
+        "401":
+          description: Credenciais invalidas
+
+  /auth/sign_out:
+    delete:
+      tags:
+        - Auth
+      summary: Logout
+      responses:
+        "200":
+          description: Logout realizado
+
+  /auth/password/new:
+    get:
+      tags:
+        - Auth
+      summary: Formulario de recuperacao de senha
+      security: []
+      responses:
+        "200":
+          description: Formulario retornado
+
+  /auth/password/edit:
+    get:
+      tags:
+        - Auth
+      summary: Formulario de edicao de senha
+      security: []
+      responses:
+        "200":
+          description: Formulario retornado
+
+  /auth/password:
+    post:
+      tags:
+        - Auth
+      summary: Solicita recuperacao de senha
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "200":
+          description: Solicitacao processada
+    patch:
+      tags:
+        - Auth
+      summary: Atualiza senha
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "200":
+          description: Senha atualizada
+    put:
+      tags:
+        - Auth
+      summary: Atualiza senha
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "200":
+          description: Senha atualizada
+
+  /auth/cancel:
+    get:
+      tags:
+        - Auth
+      summary: Cancelamento de registro
+      security: []
+      responses:
+        "200":
+          description: Fluxo de cancelamento
+
+  /auth/sign_up:
+    get:
+      tags:
+        - Auth
+      summary: Formulario de cadastro
+      security: []
+      responses:
+        "200":
+          description: Formulario retornado
+
+  /auth/edit:
+    get:
+      tags:
+        - Auth
+      summary: Formulario de edicao de conta
+      responses:
+        "200":
+          description: Formulario retornado
+
+  /auth:
+    post:
+      tags:
+        - Auth
+      summary: Cria conta
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Conta criada
+    patch:
+      tags:
+        - Auth
+      summary: Atualiza conta
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "200":
+          description: Conta atualizada
+    put:
+      tags:
+        - Auth
+      summary: Atualiza conta
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "200":
+          description: Conta atualizada
+    delete:
+      tags:
+        - Auth
+      summary: Remove conta
+      responses:
+        "200":
+          description: Conta removida
+
+  /auth/validate_token:
+    get:
+      tags:
+        - Auth
+      summary: Valida token
+      responses:
+        "200":
+          description: Token valido
+        "401":
+          description: Token invalido
+
+  /up:
+    get:
+      tags:
+        - Health
+      summary: Health check da aplicacao
+      security: []
+      responses:
+        "200":
+          description: Aplicacao online
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: OK
+
+  /public:
+    get:
+      tags:
+        - Public
+      summary: Lista itens publicos
+      responses:
+        "200":
+          description: Lista retornada
+    post:
+      tags:
+        - Public
+      summary: Cria item publico
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Item criado
+
+  /public/guilds:
+    get:
+      tags:
+        - Public
+      summary: Lista simples de guilds
+      security: []
+      responses:
+        "200":
+          description: Lista retornada
+
+  /public/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      tags:
+        - Public
+      summary: Exibe item publico
+      responses:
+        "200":
+          description: Item retornado
+    patch:
+      tags:
+        - Public
+      summary: Atualiza item publico
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "200":
+          description: Item atualizado
+    put:
+      tags:
+        - Public
+      summary: Atualiza item publico
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "200":
+          description: Item atualizado
+    delete:
+      tags:
+        - Public
+      summary: Remove item publico
+      responses:
+        "200":
+          description: Item removido
+
+  /users:
+    get:
+      tags:
+        - Users
+      summary: Lista usuarios
+      description: Retorna a lista paginada de usuarios.
+      responses:
+        "200":
+          description: Lista de usuarios retornada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+    post:
+      tags:
+        - Users
+      summary: Cria usuario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Usuario criado
+        "401":
+          description: Nao autorizado
+
+  /users/update_password:
+    patch:
+      tags:
+        - Users
+      summary: Atualiza senha do usuario autenticado
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "200":
+          description: Senha atualizada
+
+  /users/update_photo:
+    patch:
+      tags:
+        - Users
+      summary: Atualiza foto do usuario autenticado
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "200":
+          description: Foto atualizada
+
+  /users/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      tags:
+        - Users
+      summary: Exibe usuario
+      responses:
+        "200":
+          description: Usuario retornado
+    patch:
+      tags:
+        - Users
+      summary: Atualiza usuario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "200":
+          description: Usuario atualizado
+    put:
+      tags:
+        - Users
+      summary: Atualiza usuario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "200":
+          description: Usuario atualizado
+    delete:
+      tags:
+        - Users
+      summary: Remove usuario
+      responses:
+        "200":
+          description: Usuario removido
+
+  /tasks:
+    get:
+      tags:
+        - Tasks
+      summary: Lista tasks
+      responses:
+        "200":
+          description: Lista retornada
+    post:
+      tags:
+        - Tasks
+      summary: Cria task
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Task criada
+
+  /tasks/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      tags:
+        - Tasks
+      summary: Exibe task
+      responses:
+        "200":
+          description: Task retornada
+    patch:
+      tags:
+        - Tasks
+      summary: Atualiza task
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "200":
+          description: Task atualizada
+    put:
+      tags:
+        - Tasks
+      summary: Atualiza task
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "200":
+          description: Task atualizada
+    delete:
+      tags:
+        - Tasks
+      summary: Remove task
+      responses:
+        "200":
+          description: Task removida
+
+  /missions:
+    get:
+      tags:
+        - Missions
+      summary: Lista missions
+      responses:
+        "200":
+          description: Lista retornada
+    post:
+      tags:
+        - Missions
+      summary: Cria mission
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Mission criada
+
+  /missions/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      tags:
+        - Missions
+      summary: Exibe mission
+      responses:
+        "200":
+          description: Mission retornada
+    patch:
+      tags:
+        - Missions
+      summary: Atualiza mission
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "200":
+          description: Mission atualizada
+    put:
+      tags:
+        - Missions
+      summary: Atualiza mission
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "200":
+          description: Mission atualizada
+    delete:
+      tags:
+        - Missions
+      summary: Remove mission
+      responses:
+        "200":
+          description: Mission removida
+
+  /guilds:
+    get:
+      tags:
+        - Guilds
+      summary: Lista guilds
+      responses:
+        "200":
+          description: Lista retornada
+    post:
+      tags:
+        - Guilds
+      summary: Cria guild
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Guild criada
+
+  /guilds/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      tags:
+        - Guilds
+      summary: Exibe guild
+      responses:
+        "200":
+          description: Guild retornada
+    patch:
+      tags:
+        - Guilds
+      summary: Atualiza guild
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "200":
+          description: Guild atualizada
+    put:
+      tags:
+        - Guilds
+      summary: Atualiza guild
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "200":
+          description: Guild atualizada
+    delete:
+      tags:
+        - Guilds
+      summary: Remove guild
+      responses:
+        "200":
+          description: Guild removida
+
+  /quests:
+    get:
+      tags:
+        - Quests
+      summary: Lista quests
+      responses:
+        "200":
+          description: Lista retornada
+    post:
+      tags:
+        - Quests
+      summary: Cria quest
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Quest criada
+
+  /quests/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      tags:
+        - Quests
+      summary: Exibe quest
+      responses:
+        "200":
+          description: Quest retornada
+    patch:
+      tags:
+        - Quests
+      summary: Atualiza quest
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "200":
+          description: Quest atualizada
+    put:
+      tags:
+        - Quests
+      summary: Atualiza quest
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "200":
+          description: Quest atualizada
+    delete:
+      tags:
+        - Quests
+      summary: Remove quest
+      responses:
+        "200":
+          description: Quest removida
+
+  /chapters:
+    get:
+      tags:
+        - Chapters
+      summary: Lista chapters
+      responses:
+        "200":
+          description: Lista retornada
+    post:
+      tags:
+        - Chapters
+      summary: Cria chapter
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Chapter criado
+
+  /chapters/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      tags:
+        - Chapters
+      summary: Exibe chapter
+      responses:
+        "200":
+          description: Chapter retornado
+    patch:
+      tags:
+        - Chapters
+      summary: Atualiza chapter
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "200":
+          description: Chapter atualizado
+    put:
+      tags:
+        - Chapters
+      summary: Atualiza chapter
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "200":
+          description: Chapter atualizado
+    delete:
+      tags:
+        - Chapters
+      summary: Remove chapter
+      responses:
+        "200":
+          description: Chapter removido
+
+  /villages:
+    get:
+      tags:
+        - Villages
+      summary: Lista villages
+      responses:
+        "200":
+          description: Lista retornada
+    post:
+      tags:
+        - Villages
+      summary: Cria village
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Village criada
+
+  /villages/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      tags:
+        - Villages
+      summary: Exibe village
+      responses:
+        "200":
+          description: Village retornada
+    patch:
+      tags:
+        - Villages
+      summary: Atualiza village
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "200":
+          description: Village atualizada
+    put:
+      tags:
+        - Villages
+      summary: Atualiza village
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "200":
+          description: Village atualizada
+    delete:
+      tags:
+        - Villages
+      summary: Remove village
+      responses:
+        "200":
+          description: Village removida
+
+  /specializations:
+    get:
+      tags:
+        - Specializations
+      summary: Lista specializations
+      responses:
+        "200":
+          description: Lista retornada
+    post:
+      tags:
+        - Specializations
+      summary: Cria specialization
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Specialization criada
+
+  /specializations/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      tags:
+        - Specializations
+      summary: Exibe specialization
+      responses:
+        "200":
+          description: Specialization retornada
+    patch:
+      tags:
+        - Specializations
+      summary: Atualiza specialization
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "200":
+          description: Specialization atualizada
+    put:
+      tags:
+        - Specializations
+      summary: Atualiza specialization
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "200":
+          description: Specialization atualizada
+    delete:
+      tags:
+        - Specializations
+      summary: Remove specialization
+      responses:
+        "200":
+          description: Specialization removida
+
+  /character_classes:
+    get:
+      tags:
+        - Character Classes
+      summary: Lista classes de personagem
+      responses:
+        "200":
+          description: Lista retornada
+    post:
+      tags:
+        - Character Classes
+      summary: Cria classe de personagem
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Classe criada
+
+  /character_classes/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      tags:
+        - Character Classes
+      summary: Exibe classe de personagem
+      responses:
+        "200":
+          description: Classe retornada
+    patch:
+      tags:
+        - Character Classes
+      summary: Atualiza classe de personagem
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "200":
+          description: Classe atualizada
+    put:
+      tags:
+        - Character Classes
+      summary: Atualiza classe de personagem
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "200":
+          description: Classe atualizada
+    delete:
+      tags:
+        - Character Classes
+      summary: Remove classe de personagem
+      responses:
+        "200":
+          description: Classe removida
+
+  /honorary_titles:
+    get:
+      tags:
+        - Honorary Titles
+      summary: Lista titulos honorarios
+      responses:
+        "200":
+          description: Lista retornada
+    post:
+      tags:
+        - Honorary Titles
+      summary: Cria titulo honorario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Titulo criado
+
+  /honorary_titles/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      tags:
+        - Honorary Titles
+      summary: Exibe titulo honorario
+      responses:
+        "200":
+          description: Titulo retornado
+    patch:
+      tags:
+        - Honorary Titles
+      summary: Atualiza titulo honorario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "200":
+          description: Titulo atualizado
+    put:
+      tags:
+        - Honorary Titles
+      summary: Atualiza titulo honorario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "200":
+          description: Titulo atualizado
+    delete:
+      tags:
+        - Honorary Titles
+      summary: Remove titulo honorario
+      responses:
+        "200":
+          description: Titulo removido
+
+  /guild_notices:
+    get:
+      tags:
+        - Guild Notices
+      summary: Lista guild notices
+      responses:
+        "200":
+          description: Lista retornada
+    post:
+      tags:
+        - Guild Notices
+      summary: Cria guild notice
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Guild notice criado
+
+  /guild_notices/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    patch:
+      tags:
+        - Guild Notices
+      summary: Atualiza guild notice
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "200":
+          description: Guild notice atualizado
+    put:
+      tags:
+        - Guild Notices
+      summary: Atualiza guild notice
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "200":
+          description: Guild notice atualizado
+    delete:
+      tags:
+        - Guild Notices
+      summary: Remove guild notice
+      responses:
+        "200":
+          description: Guild notice removido
+
+  /arcane_announcements:
+    get:
+      tags:
+        - Arcane Announcements
+      summary: Lista arcane announcements
+      responses:
+        "200":
+          description: Lista retornada
+    post:
+      tags:
+        - Arcane Announcements
+      summary: Cria arcane announcement
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Arcane announcement criado
+
+  /arcane_announcements/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    patch:
+      tags:
+        - Arcane Announcements
+      summary: Atualiza arcane announcement
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "200":
+          description: Arcane announcement atualizado
+    put:
+      tags:
+        - Arcane Announcements
+      summary: Atualiza arcane announcement
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "200":
+          description: Arcane announcement atualizado
+    delete:
+      tags:
+        - Arcane Announcements
+      summary: Remove arcane announcement
+      responses:
+        "200":
+          description: Arcane announcement removido
+
+  /bosses:
+    get:
+      tags:
+        - Bosses
+      summary: Lista bosses
+      responses:
+        "200":
+          description: Lista retornada
+    post:
+      tags:
+        - Bosses
+      summary: Cria boss
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Boss criado
+
+  /bosses/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    patch:
+      tags:
+        - Bosses
+      summary: Atualiza boss
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "200":
+          description: Boss atualizado
+    put:
+      tags:
+        - Bosses
+      summary: Atualiza boss
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "200":
+          description: Boss atualizado
+    delete:
+      tags:
+        - Bosses
+      summary: Remove boss
+      responses:
+        "200":
+          description: Boss removido
+
+  /rewards:
+    get:
+      tags:
+        - Rewards
+      summary: Lista rewards
+      responses:
+        "200":
+          description: Lista retornada
+    post:
+      tags:
+        - Rewards
+      summary: Cria reward
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Reward criado
+
+  /rewards/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      tags:
+        - Rewards
+      summary: Exibe reward
+      responses:
+        "200":
+          description: Reward retornado
+
+  /rewards/{id}/restock:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    patch:
+      tags:
+        - Rewards
+      summary: Adiciona estoque ao reward
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "200":
+          description: Estoque atualizado
+
+  /rewards/{id}/remove_stock:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    patch:
+      tags:
+        - Rewards
+      summary: Remove estoque do reward
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "200":
+          description: Estoque atualizado
+
+  /treasure_chests:
+    get:
+      tags:
+        - Treasure Chests
+      summary: Lista treasure chests
+      responses:
+        "200":
+          description: Lista retornada
+    post:
+      tags:
+        - Treasure Chests
+      summary: Cria treasure chest
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Treasure chest criado
+
+  /treasure_chests/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      tags:
+        - Treasure Chests
+      summary: Exibe treasure chest
+      responses:
+        "200":
+          description: Treasure chest retornado
+
+  /treasure_chests/{id}/activate:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    patch:
+      tags:
+        - Treasure Chests
+      summary: Ativa treasure chest
+      responses:
+        "200":
+          description: Treasure chest ativado
+
+  /treasure_chests/{id}/deactivate:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    patch:
+      tags:
+        - Treasure Chests
+      summary: Desativa treasure chest
+      responses:
+        "200":
+          description: Treasure chest desativado
+
+  /characters/select_specialization:
+    patch:
+      tags:
+        - Characters
+      summary: Seleciona especializacao ativa
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "200":
+          description: Especializacao selecionada
+
+  /characters/switch_class:
+    patch:
+      tags:
+        - Characters
+      summary: Troca classe ativa
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "200":
+          description: Classe alterada
+
+  /characters/switch_title:
+    patch:
+      tags:
+        - Characters
+      summary: Troca titulo ativo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "200":
+          description: Titulo alterado
+
+  /characters/character_quest:
+    get:
+      tags:
+        - Characters
+      summary: Retorna quest do personagem
+      responses:
+        "200":
+          description: Quest retornada
+
+  /characters/ranking:
+    get:
+      tags:
+        - Characters
+      summary: Retorna ranking de personagens
+      responses:
+        "200":
+          description: Ranking retornado
+
+  /characters/purchase_history:
+    get:
+      tags:
+        - Characters
+      summary: Retorna historico de compras
+      responses:
+        "200":
+          description: Historico retornado
+
+  /characters/store_items:
+    get:
+      tags:
+        - Characters
+      summary: Lista itens da loja
+      responses:
+        "200":
+          description: Itens retornados
+
+  /characters/purchase_chest:
+    post:
+      tags:
+        - Characters
+      summary: Compra um baú
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "200":
+          description: Compra realizada
+
+  /characters/progress_chapter:
+    post:
+      tags:
+        - Characters
+      summary: Progride capitulo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "200":
+          description: Progresso aplicado
+
+  /characters/defeat_boss:
+    post:
+      tags:
+        - Characters
+      summary: Registra derrota de boss
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "200":
+          description: Boss derrotado
+
+  /narrators/performance_report:
+    get:
+      tags:
+        - Narrators
+      summary: Relatorio de performance
+      responses:
+        "200":
+          description: Relatorio retornado
+
+  /narrators/guild_members:
+    get:
+      tags:
+        - Narrators
+      summary: Lista membros da guild
+      responses:
+        "200":
+          description: Lista retornada
+
+  /narrators/pending_rewards:
+    get:
+      tags:
+        - Narrators
+      summary: Lista recompensas pendentes
+      responses:
+        "200":
+          description: Lista retornada
+
+  /narrators/narrator_quest:
+    get:
+      tags:
+        - Narrators
+      summary: Retorna quest do narrador
+      responses:
+        "200":
+          description: Quest retornada
+
+  /narrators/deliver_reward:
+    patch:
+      tags:
+        - Narrators
+      summary: Entrega recompensa
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "200":
+          description: Recompensa entregue

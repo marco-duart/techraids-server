@@ -35,6 +35,8 @@ gem "rack-cors"
 gem "pagy", "~> 9.0"
 
 gem "dotenv-rails"
+gem "rswag-api"
+gem "rswag-ui"
 
 group :development, :test do
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
